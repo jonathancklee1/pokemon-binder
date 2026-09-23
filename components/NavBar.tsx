@@ -19,8 +19,8 @@ export function NavBar() {
                     </Link>
                     <div className="flex items-center gap-4">
                         <Link
-                            href="/binders"
-                            className={`font-medium text-primary border-b-2 flex py-1 px-0.5 items-center gap-2 ${params === "/binders" ? "text-secondary  border-secondary" : " border-transparent"}`}
+                            href="/"
+                            className={`font-medium text-primary border-b-2 flex py-1 px-0.5 items-center gap-2 ${params === "/" ? "text-secondary  border-secondary" : " border-transparent"}`}
                         >
                             <BookOpen className="size-5 " />
                             Binders
