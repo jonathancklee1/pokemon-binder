@@ -1,4 +1,4 @@
-import BinderMenu from "@/components/binder/BinderMenu";
+import BinderContent from "@/components/binder/BinderContent";
 import TabContainer, { BinderItem } from "@/components/binder/TabContainer";
 
 export default function Home() {
@@ -6,20 +6,12 @@ export default function Home() {
     {
       name: "151 collection",
       pocketNumber: 4,
-      tabContent: (
-        <div>
-          <BinderMenu />
-        </div>
-      ),
+      tabContent: <BinderContent />,
     },
     {
       name: "Shining Legends",
       pocketNumber: 9,
-      tabContent: (
-        <div>
-          <BinderMenu />
-        </div>
-      ),
+      tabContent: <BinderContent />,
     },
     {
       name: "Hidden Fates",
