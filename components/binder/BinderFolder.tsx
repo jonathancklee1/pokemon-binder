@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import BinderPage from "./BinderPage";
 import BinderCarouselMobile from "./BinderCarouselMobile";
 import { CARD_LIST } from "@/lib/constants";
+import BinderDesktop from "./BinderDesktop";
 
-function BinderFolder() {
+function BinderFolder({ pocketSize }: { pocketSize: 4 | 9 | 12 }) {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -16,14 +17,11 @@ function BinderFolder() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div>
       {isMobile ? (
-        <BinderCarouselMobile cardList={CARD_LIST} pocketSize={4} />
+        <BinderCarouselMobile cardList={CARD_LIST} pocketSize={pocketSize} />
       ) : (
-        <>
-          <BinderPage />
-          <BinderPage />
-        </>
+        <BinderDesktop cardList={CARD_LIST} pocketSize={pocketSize} />
       )}
     </div>
   );

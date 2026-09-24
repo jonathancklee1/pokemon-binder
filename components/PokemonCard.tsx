@@ -10,7 +10,7 @@ function PokemonCard({ cardData }: { cardData: CardDataType }) {
     );
   }
   return (
-    <div className="card bg-secondary-background relative shadow-md">
+    <div className="card bg-secondary-background relative pt-5 shadow-md">
       <figure className="w-full">
         <Image
           src={cardData.image}
@@ -18,7 +18,7 @@ function PokemonCard({ cardData }: { cardData: CardDataType }) {
           className="m-2 rounded-lg border border-gray-300"
         />
       </figure>
-      <span className="badge badge-xs badge-warning absolute top-2 right-2 px-2">
+      <span className="badge badge-xs badge-warning absolute top-2 right-2 px-2 font-bold">
         {cardData.variant}
       </span>
       <div className="card-body flex flex-col justify-between gap-1 overflow-hidden p-2">

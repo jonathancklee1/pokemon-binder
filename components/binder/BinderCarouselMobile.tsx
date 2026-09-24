@@ -7,7 +7,7 @@ function BinderCarouselMobile({
   pocketSize = 4,
 }: {
   cardList: CardDataType[];
-  pocketSize: number;
+  pocketSize: 4 | 9 | 12;
 }) {
   const binderPageNum = Math.ceil(cardList.length / pocketSize);
   console.log("binderPageNum:", binderPageNum);
@@ -19,6 +19,7 @@ function BinderCarouselMobile({
           <div className="w-full shrink-0" key={startIndex}>
             <BinderPage
               cardList={cardList.slice(startIndex, startIndex + pocketSize)}
+              pocketSize={pocketSize}
             />
           </div>
         );

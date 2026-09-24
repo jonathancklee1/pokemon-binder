@@ -8,6 +8,7 @@ export interface BinderMenuProps {
   collectedCards?: number;
   pocketNumber?: 4 | 9 | 12;
   totalPages?: number;
+  setPocketNumber?: (pocket: 4 | 9 | 12) => void;
 }
 
 function BinderMenu({
@@ -15,8 +16,8 @@ function BinderMenu({
   collectedCards = 0,
   pocketNumber = 9,
   totalPages = 1,
+  setPocketNumber,
 }: BinderMenuProps) {
-  const [pocket, setPocket] = useState<number>(pocketNumber);
   const [spread, setSpread] = useState(0);
   const [binderName, setBinderName] = useState(name);
 
@@ -57,8 +58,8 @@ function BinderMenu({
               className="tab checked:bg-secondary font-semibold checked:text-black"
               aria-label={`${size}-Pocket`}
               key={size}
-              defaultChecked={pocket === size}
-              onChange={() => setPocket(size)}
+              defaultChecked={pocketNumber === size}
+              onChange={() => setPocketNumber && setPocketNumber(size)}
             />
           ))}
         </div>
