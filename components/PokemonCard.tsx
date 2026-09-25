@@ -5,7 +5,7 @@ function PokemonCard({ cardData }: { cardData: CardDataType }) {
   if (!cardData) {
     return (
       <div className="card bg-secondary-background grid place-items-center shadow-md">
-        <span>Card not found</span>
+        <span>Empty Card</span>
       </div>
     );
   }

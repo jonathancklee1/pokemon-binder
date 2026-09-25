@@ -17,7 +17,7 @@ function BinderPage(
         ? "grid-cols-3 grid-rows-3"
         : "grid-cols-4 grid-rows-3";
   return (
-    <div className="bg-secondary rounded-md p-4 shadow-sm">
+    <div className="bg-secondary h-full rounded-md p-4 shadow-sm">
       <div className={`grid ${gridColsClass} gap-4`}>
         {cardList?.map((card, index) => (
           <PokemonCard key={index} cardData={card} />
