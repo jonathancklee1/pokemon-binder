@@ -1,8 +1,9 @@
 "use client";
 import { CardDataType } from "@/lib/types";
 import BinderPage from "./BinderPage";
-import { useState } from "react";
+import { useContext } from "react";
 import { chunkArray } from "@/lib/utils";
+import PageNumberContext from "@/lib/contexts/PageNumberContext";
 
 function BinderDesktop({
   cardList,
@@ -11,7 +12,7 @@ function BinderDesktop({
   cardList: CardDataType[];
   pocketSize: 4 | 9 | 12;
 }) {
-  const [currentPage, setCurrentPage] = useState(2);
+  const { currentPage } = useContext(PageNumberContext);
 
   const chunkedCardList = chunkArray(cardList, pocketSize);
   console.log("chunkedCardList", chunkedCardList);

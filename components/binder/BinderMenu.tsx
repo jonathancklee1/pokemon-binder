@@ -1,7 +1,8 @@
 "use client";
 import { ChevronLeft, ChevronRight, Library, Pencil } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
+import PageNumberContext from "@/lib/contexts/PageNumberContext";
 
 export interface BinderMenuProps {
   name?: string;
@@ -15,16 +16,12 @@ function BinderMenu({
   name = "Binder",
   collectedCards = 0,
   pocketNumber = 9,
-  totalPages = 1,
+  totalPages = 3,
   setPocketNumber,
 }: BinderMenuProps) {
-  const [spread, setSpread] = useState(0);
   const [binderName, setBinderName] = useState(name);
 
-  const leftPage = spread * 2 + 1;
-  const rightPage = Math.min(leftPage + 1, totalPages);
-  const lastSpread = Math.max(Math.ceil(totalPages / 2) - 1, 0);
-
+  const { currentPage, setCurrentPage } = useContext(PageNumberContext);
   return (
     <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
       <div className="flex items-center gap-3">
@@ -68,19 +65,21 @@ function BinderMenu({
           <button
             className="join-item btn btn-sm"
             aria-label="Previous pages"
-            disabled={spread === 0}
-            onClick={() => setSpread(spread - 1)}
+            disabled={currentPage <= 0}
+            onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
           >
             <ChevronLeft className="size-4" />
           </button>
           <span className="join-item btn btn-sm pointer-events-none">
-            Pages {leftPage}&ndash;{rightPage} of {totalPages}
+            Page {currentPage}
           </span>
           <button
             className="join-item btn btn-sm"
             aria-label="Next pages"
-            disabled={spread >= lastSpread}
-            onClick={() => setSpread(spread + 1)}
+            disabled={currentPage >= totalPages - 1}
+            onClick={() =>
+              setCurrentPage(Math.min(totalPages - 1, currentPage + 1))
+            }
           >
             <ChevronRight className="size-4" />
           </button>
