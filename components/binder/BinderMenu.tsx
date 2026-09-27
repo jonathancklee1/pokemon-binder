@@ -5,20 +5,23 @@ import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { CARD_LIST } from "@/lib/constants";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
 
 export interface BinderMenuProps {
   name?: string;
   pocketNumber?: 4 | 9 | 12;
   setPocketNumber?: (pocket: 4 | 9 | 12) => void;
+  activeTab: string;
 }
 
 function BinderMenu({
-  name = "Binder",
   pocketNumber = 4,
   setPocketNumber,
+  activeTab,
 }: BinderMenuProps) {
-  const [binderName, setBinderName] = useState(name);
-
+  // const [binderName, setBinderName] = useState(name);
+  const { binders, changeName } = useBindersStore((state) => state);
+  const activeBinder = binders.find((binder) => binder.id === activeTab);
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
   const maxPages = Math.ceil(CARD_LIST.length / pocketNumber);
   useEffect(() => {
@@ -39,8 +42,13 @@ function BinderMenu({
               type="text"
               placeholder="Type here"
               className="input input-ghost hover:border-secondary h-8 w-3/4 cursor-text border-2 p-0 pl-2 text-xl focus:ring-0 focus:outline-none"
-              value={binderName}
-              onChange={(e) => setBinderName(e.target.value)}
+              value={activeBinder && activeBinder.name}
+              onChange={(e) =>
+                changeName(
+                  (activeBinder && activeBinder.id) ?? "",
+                  e.target.value,
+                )
+              }
               aria-label="Binder name"
             />
           </div>
@@ -75,7 +83,7 @@ function BinderMenu({
             <ChevronLeft className="size-4" />
           </button>
           <span className="join-item btn btn-sm pointer-events-none">
-            {currentPage === 0 ? "Cover" : `Page ${currentPage}`}
+            {currentPage === 0 ? "Cover" : `Page ${currentPage} of ${maxPages}`}
           </span>
           <button
             className="join-item btn btn-sm"

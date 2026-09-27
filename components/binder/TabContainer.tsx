@@ -1,19 +1,16 @@
 "use client";
+import { BinderType } from "@/lib/stores/BindersStore";
 import { useState } from "react";
-
-export interface BinderItem {
-  name: string;
-  pocketNumber: 4 | 9 | 12;
-  tabContent?: React.ReactNode;
-}
+import BinderContent from "./BinderContent";
+import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
 
 export default function TabContainer({
   binderArray,
 }: {
-  binderArray: BinderItem[];
+  binderArray: BinderType[];
 }) {
-  const [active, setActive] = useState(0);
-
+  const { binders } = useBindersStore((state) => state);
+  const [activeTab, setActiveTab] = useState(binders[0].id);
   return (
     <div>
       <div
@@ -22,15 +19,15 @@ export default function TabContainer({
       >
         {binderArray.map((binder, index) => (
           <button
-            key={binder.name}
+            key={binder.id}
             role="tab"
-            aria-selected={index === active}
+            aria-selected={binder.id === activeTab}
             className={`tab rounded-t-xl p-2 font-bold whitespace-nowrap ${
-              index === active
+              binder.id === activeTab
                 ? "tab-active border-secondary border-2 border-b-0"
                 : ""
             }`}
-            onClick={() => setActive(index)}
+            onClick={() => setActiveTab(binder.id)}
           >
             {binder.name}
           </button>
@@ -40,7 +37,7 @@ export default function TabContainer({
         role="tabpanel"
         className="border-base-300 bg-base-100 rounded-box rounded-ss-none border p-6"
       >
-        {binderArray[active]?.tabContent}
+        <BinderContent activeTab={activeTab} />
       </div>
     </div>
   );
