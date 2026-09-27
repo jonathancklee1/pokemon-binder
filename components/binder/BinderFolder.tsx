@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import BinderPage from "./BinderPage";
 import BinderCarouselMobile from "./BinderCarouselMobile";
 import { CARD_LIST } from "@/lib/constants";
 import BinderDesktop from "./BinderDesktop";

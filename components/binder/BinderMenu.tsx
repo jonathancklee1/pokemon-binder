@@ -1,27 +1,29 @@
 "use client";
 import { ChevronLeft, ChevronRight, Library, Pencil } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
+import { CARD_LIST } from "@/lib/constants";
 
 export interface BinderMenuProps {
   name?: string;
-  collectedCards?: number;
   pocketNumber?: 4 | 9 | 12;
-  totalPages?: number;
   setPocketNumber?: (pocket: 4 | 9 | 12) => void;
 }
 
 function BinderMenu({
   name = "Binder",
-  collectedCards = 0,
-  pocketNumber = 9,
-  totalPages = 3,
+  pocketNumber = 4,
   setPocketNumber,
 }: BinderMenuProps) {
   const [binderName, setBinderName] = useState(name);
 
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
+  const maxPages = Math.ceil(CARD_LIST.length / pocketNumber);
+  console.log("maxPages", maxPages);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pocketNumber, setCurrentPage]);
   return (
     <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
       <div className="flex items-center gap-3">
@@ -41,7 +43,7 @@ function BinderMenu({
             />
           </div>
           <p className="text-secondary text-sm font-semibold">
-            {collectedCards} Cards
+            {CARD_LIST.length} Cards
           </p>
         </div>
       </div>
@@ -71,15 +73,13 @@ function BinderMenu({
             <ChevronLeft className="size-4" />
           </button>
           <span className="join-item btn btn-sm pointer-events-none">
-            Page {currentPage}
+            {currentPage === 0 ? "Cover" : `Page ${currentPage}`}
           </span>
           <button
             className="join-item btn btn-sm"
             aria-label="Next pages"
-            disabled={currentPage >= totalPages - 1}
-            onClick={() =>
-              setCurrentPage(Math.min(totalPages - 1, currentPage + 1))
-            }
+            disabled={currentPage >= maxPages}
+            onClick={() => setCurrentPage(Math.min(maxPages, currentPage + 1))}
           >
             <ChevronRight className="size-4" />
           </button>
