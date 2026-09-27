@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { CARD_LIST } from "@/lib/constants";
+import { useIsMobile } from "@/lib/hooks/useIsMobile";
 
 export interface BinderMenuProps {
   name?: string;
@@ -20,10 +21,11 @@ function BinderMenu({
 
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
   const maxPages = Math.ceil(CARD_LIST.length / pocketNumber);
-  console.log("maxPages", maxPages);
   useEffect(() => {
     setCurrentPage(1);
   }, [pocketNumber, setCurrentPage]);
+
+  const isMobile = useIsMobile();
   return (
     <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
       <div className="flex items-center gap-3">
@@ -49,7 +51,7 @@ function BinderMenu({
       </div>
 
       <div className="flex w-full flex-wrap items-center justify-between gap-3 lg:w-fit">
-        <div className="tabs tabs-box w-full max-w-90 flex-nowrap justify-between overflow-x-auto sm:w-fit sm:justify-start sm:gap-2">
+        <div className="tabs tabs-box max-w-90 flex-nowrap justify-between overflow-x-auto sm:w-fit sm:justify-start sm:gap-2">
           {POCKET_SIZES.map((size) => (
             <input
               type="radio"
@@ -78,7 +80,9 @@ function BinderMenu({
           <button
             className="join-item btn btn-sm"
             aria-label="Next pages"
-            disabled={currentPage >= maxPages}
+            disabled={
+              isMobile ? currentPage > maxPages : currentPage >= maxPages
+            }
             onClick={() => setCurrentPage(Math.min(maxPages, currentPage + 1))}
           >
             <ChevronRight className="size-4" />
