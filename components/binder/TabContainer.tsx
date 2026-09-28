@@ -17,7 +17,7 @@ export default function TabContainer({
         role="tablist"
         className="tabs-lift tabs flex-nowrap space-x-1.5 overflow-x-auto"
       >
-        {binderArray.map((binder, index) => (
+        {binderArray.map((binder) => (
           <button
             key={binder.id}
             role="tab"

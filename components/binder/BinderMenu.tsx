@@ -1,32 +1,26 @@
 "use client";
 import { ChevronLeft, ChevronRight, Library, Pencil } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { CARD_LIST } from "@/lib/constants";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
+import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
 export interface BinderMenuProps {
-  name?: string;
-  pocketNumber?: 4 | 9 | 12;
-  setPocketNumber?: (pocket: 4 | 9 | 12) => void;
   activeTab: string;
 }
 
-function BinderMenu({
-  pocketNumber = 4,
-  setPocketNumber,
-  activeTab,
-}: BinderMenuProps) {
-  // const [binderName, setBinderName] = useState(name);
-  const { binders, changeName } = useBindersStore((state) => state);
-  const activeBinder = binders.find((binder) => binder.id === activeTab);
+function BinderMenu({ activeTab }: BinderMenuProps) {
+  const { changeName, setPocketSize } = useBindersStore((state) => state);
+  const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
-  const maxPages = Math.ceil(CARD_LIST.length / pocketNumber);
+  const maxPages =
+    (activePocketSize && Math.ceil(CARD_LIST.length / activePocketSize)) ?? 1;
   useEffect(() => {
     setCurrentPage(1);
-  }, [pocketNumber, setCurrentPage]);
+  }, [activePocketSize, setCurrentPage]);
 
   const isMobile = useIsMobile();
   return (
@@ -67,8 +61,10 @@ function BinderMenu({
               className="tab checked:bg-secondary font-semibold checked:text-black"
               aria-label={`${size}-Pocket`}
               key={size}
-              defaultChecked={pocketNumber === size}
-              onChange={() => setPocketNumber && setPocketNumber(size)}
+              checked={activePocketSize === size}
+              onChange={() =>
+                setPocketSize && setPocketSize(activeBinder?.id ?? "", size)
+              }
             />
           ))}
         </div>

@@ -20,6 +20,7 @@ export type BindersActions = {
   addCard: () => void;
   removeCard: () => void;
   changeCurrentPage: (number: number) => void;
+  setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
 };
 
 export type BindersStore = BindersState & BindersActions;
@@ -45,5 +46,14 @@ export const createBindersStore = (
     addCard: () => {}, //TODO
     removeCard: () => {}, //TODO
     changeCurrentPage: () => {}, //TODO
+    setPocketSize: (id, pocketNumber) =>
+      set((state) => ({
+        binders: state.binders.map((binder) => {
+          if (binder.id === id) {
+            return { ...binder, pocketSize: pocketNumber };
+          }
+          return binder;
+        }),
+      })),
   }));
 };

@@ -12,12 +12,8 @@ function BinderContent({ activeTab }: { activeTab: string }) {
       <PageNumberContext.Provider
         value={{ currentPage: currentPage, setCurrentPage: setCurrentPage }}
       >
-        <BinderMenu
-          // pocketNumber={pocketNumber}
-          // setPocketNumber={setPocketNumber}
-          activeTab={activeTab}
-        />
-        <BinderFolder pocketSize={pocketNumber} />
+        <BinderMenu activeTab={activeTab} />
+        <BinderFolder activeTab={activeTab} />
       </PageNumberContext.Provider>
     </div>
   );

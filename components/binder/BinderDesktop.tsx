@@ -4,17 +4,18 @@ import BinderPage from "./BinderPage";
 import { useContext } from "react";
 import { chunkArray } from "@/lib/utils";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
+import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
 function BinderDesktop({
   cardList,
-  pocketSize,
+  activeTab,
 }: {
   cardList: CardDataType[];
-  pocketSize: 4 | 9 | 12;
+  activeTab: string;
 }) {
   const { currentPage } = useContext(PageNumberContext);
-
-  const chunkedCardList = chunkArray(cardList, pocketSize);
+  const { activePocketSize } = useActiveBinder(activeTab);
+  const chunkedCardList = chunkArray(cardList, activePocketSize || 1);
   console.log("chunkedCardList", chunkedCardList);
 
   //Page 0 is closed binder, page 1 is Binder cover + right page, page 2 is left page + right page
@@ -38,7 +39,12 @@ function BinderDesktop({
       );
       break;
     default:
-      leftPage = <BinderPage cardList={leftCardList} pocketSize={pocketSize} />;
+      leftPage = (
+        <BinderPage
+          cardList={leftCardList}
+          pocketSize={activePocketSize || 4}
+        />
+      );
   }
 
   //Right page
@@ -53,7 +59,10 @@ function BinderDesktop({
 
     default:
       rightPage = (
-        <BinderPage cardList={rightCardList} pocketSize={pocketSize} />
+        <BinderPage
+          cardList={rightCardList}
+          pocketSize={activePocketSize || 4}
+        />
       );
   }
 
