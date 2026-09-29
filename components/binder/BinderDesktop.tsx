@@ -27,7 +27,6 @@ function BinderDesktop({
   const rightCardList = chunkedCardList[(currentPage - 1) * 2] || [];
   console.log("leftCardList", leftCardList, (currentPage - 1) * 2 - 1);
   console.log("rightCardList", rightCardList, (currentPage - 1) * 2);
-
   //Left page
   switch (currentPage) {
     case 0:
@@ -50,9 +49,18 @@ function BinderDesktop({
   //Right page
   switch (currentPage) {
     case 0:
+      // Invisible first page sizes the cover so it scales with the screen.
       rightPage = (
-        <div className="bg-secondary grid h-[70vh] place-items-center rounded-md rounded-l-lg rounded-r-4xl p-4 shadow-sm">
-          <span className="text-4xl font-bold">Binder</span>
+        <div className="relative">
+          <div className="invisible">
+            <BinderPage
+              cardList={chunkedCardList[0] || []}
+              pocketSize={activePocketSize || 4}
+            />
+          </div>
+          <div className="bg-secondary absolute inset-0 grid place-items-center rounded-md rounded-l-lg rounded-r-4xl p-4 shadow-sm">
+            <span className="text-4xl font-bold">Binder</span>
+          </div>
         </div>
       );
       break;
@@ -67,7 +75,7 @@ function BinderDesktop({
   }
 
   return (
-    <div className="mt-4 flex flex-wrap gap-4">
+    <div className="mx-auto mt-4 flex max-w-375 flex-wrap gap-4">
       <div className="basis-[calc(50%-0.5rem)]">{leftPage}</div>
       <div className="basis-[calc(50%-0.5rem)]">{rightPage}</div>
     </div>

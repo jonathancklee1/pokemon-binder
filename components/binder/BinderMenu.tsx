@@ -78,7 +78,7 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
           >
             <ChevronLeft className="size-4" />
           </button>
-          <span className="join-item btn btn-sm pointer-events-none">
+          <span className="join-item btn btn-sm pointer-events-none min-w-25">
             {currentPage === 0 ? "Cover" : `Page ${currentPage} of ${maxPages}`}
           </span>
           <button

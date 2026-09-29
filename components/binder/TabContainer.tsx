@@ -35,7 +35,7 @@ export default function TabContainer({
       </div>
       <div
         role="tabpanel"
-        className="border-base-300 bg-base-100 rounded-box rounded-ss-none border p-6"
+        className="border-base-300 bg-base-100 rounded-box rounded-ss-none border p-3"
       >
         <BinderContent activeTab={activeTab} />
       </div>
