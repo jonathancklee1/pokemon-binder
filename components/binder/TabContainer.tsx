@@ -2,7 +2,10 @@
 import { BinderType } from "@/lib/stores/BindersStore";
 import { useState } from "react";
 import BinderContent from "./BinderContent";
-import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
+import {
+  useBindersHydrated,
+  useBindersStore,
+} from "@/lib/stores/BinderStoreProvider";
 
 export default function TabContainer({
   binderArray,
@@ -11,6 +14,7 @@ export default function TabContainer({
 }) {
   const { binders } = useBindersStore((state) => state);
   const [activeTab, setActiveTab] = useState(binders[0].id);
+  const hydrated = useBindersHydrated();
   return (
     <div>
       <div
@@ -29,7 +33,7 @@ export default function TabContainer({
             }`}
             onClick={() => setActiveTab(binder.id)}
           >
-            {binder.name}
+            {hydrated ? binder.name : <span className="skeleton h-4 w-24" />}
           </button>
         ))}
       </div>

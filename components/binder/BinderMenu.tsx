@@ -5,7 +5,10 @@ import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { CARD_LIST } from "@/lib/constants";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
-import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
+import {
+  useBindersHydrated,
+  useBindersStore,
+} from "@/lib/stores/BinderStoreProvider";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
 export interface BinderMenuProps {
@@ -23,6 +26,7 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   }, [activePocketSize, setCurrentPage]);
 
   const isMobile = useIsMobile();
+  const hydrated = useBindersHydrated();
   return (
     <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
       <div className="flex items-center gap-3">
@@ -32,19 +36,23 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
         <div>
           <div className="text-primary mb-1 flex w-fit items-center gap-1 text-xl font-bold">
             <Pencil className="size-3.5" />
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-ghost hover:border-secondary h-8 w-3/4 cursor-text border-2 p-0 pl-2 text-xl focus:ring-0 focus:outline-none"
-              value={activeBinder && activeBinder.name}
-              onChange={(e) =>
-                changeName(
-                  (activeBinder && activeBinder.id) ?? "",
-                  e.target.value,
-                )
-              }
-              aria-label="Binder name"
-            />
+            {hydrated ? (
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-ghost hover:border-secondary h-8 w-3/4 cursor-text border-2 p-0 pl-2 text-xl focus:ring-0 focus:outline-none"
+                value={activeBinder && activeBinder.name}
+                onChange={(e) =>
+                  changeName(
+                    (activeBinder && activeBinder.id) ?? "",
+                    e.target.value,
+                  )
+                }
+                aria-label="Binder name"
+              />
+            ) : (
+              <div className="skeleton h-8 w-48" />
+            )}
           </div>
           <p className="text-secondary text-sm font-semibold">
             {CARD_LIST.length} Cards
@@ -61,7 +69,8 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
               className="tab checked:bg-secondary font-semibold checked:text-black"
               aria-label={`${size}-Pocket`}
               key={size}
-              checked={activePocketSize === size}
+              checked={hydrated && activePocketSize === size}
+              disabled={!hydrated}
               onChange={() =>
                 setPocketSize && setPocketSize(activeBinder?.id ?? "", size)
               }
@@ -73,19 +82,26 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
           <button
             className="join-item btn btn-sm"
             aria-label="Previous pages"
-            disabled={currentPage <= 0}
+            disabled={!hydrated || currentPage <= 0}
             onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
           >
             <ChevronLeft className="size-4" />
           </button>
           <span className="join-item btn btn-sm pointer-events-none min-w-25">
-            {currentPage === 0 ? "Cover" : `Page ${currentPage} of ${maxPages}`}
+            {!hydrated ? (
+              <span className="skeleton h-3 w-16" />
+            ) : currentPage === 0 ? (
+              "Cover"
+            ) : (
+              `Page ${currentPage} of ${maxPages}`
+            )}
           </span>
           <button
             className="join-item btn btn-sm"
             aria-label="Next pages"
             disabled={
-              isMobile ? currentPage > maxPages : currentPage >= maxPages
+              !hydrated ||
+              (isMobile ? currentPage > maxPages : currentPage >= maxPages)
             }
             onClick={() => setCurrentPage(Math.min(maxPages, currentPage + 1))}
           >
