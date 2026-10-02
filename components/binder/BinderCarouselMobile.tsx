@@ -1,5 +1,6 @@
 import { Carousel, SlideHandle } from "nuka-carousel";
 import BinderPage from "./BinderPage";
+import BinderCover from "./BinderCover";
 import { CardDataType } from "@/lib/types";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useContext, useEffect, useRef } from "react";
@@ -34,12 +35,11 @@ function BinderCarouselMobile({
       {Array.from({ length: binderPageNum + 1 }, (_, pageIndex) => {
         if (pageIndex === 0)
           return (
-            <div
-              className="bg-secondary grid w-full shrink-0 place-items-center rounded-md rounded-l-lg rounded-r-4xl p-4 shadow-sm"
+            <BinderCover
               key="cover"
-            >
-              <span className="text-4xl font-bold">Binder</span>
-            </div>
+              title={activeBinder.name}
+              className="w-full shrink-0"
+            />
           );
         const startIndex = (pageIndex - 1) * activePocketSize;
         return (
