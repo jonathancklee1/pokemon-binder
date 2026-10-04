@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import BinderCarouselMobile from "./BinderCarouselMobile";
-import { CARD_LIST } from "@/lib/constants";
 import BinderDesktop from "./BinderDesktop";
 import BinderFolderSkeleton from "./BinderFolderSkeleton";
 import { useBindersHydrated } from "@/lib/stores/BinderStoreProvider";
+import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
 function BinderFolder({ activeTab }: { activeTab: string }) {
   const hydrated = useBindersHydrated();
   const [isMobile, setIsMobile] = useState(false);
+  const { activeBinder } = useActiveBinder(activeTab);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
@@ -23,9 +24,15 @@ function BinderFolder({ activeTab }: { activeTab: string }) {
   return (
     <div>
       {isMobile ? (
-        <BinderCarouselMobile cardList={CARD_LIST} activeTab={activeTab} />
+        <BinderCarouselMobile
+          cardList={activeBinder?.cardList || []}
+          activeTab={activeTab}
+        />
       ) : (
-        <BinderDesktop cardList={CARD_LIST} activeTab={activeTab} />
+        <BinderDesktop
+          cardList={activeBinder?.cardList || []}
+          activeTab={activeTab}
+        />
       )}
     </div>
   );

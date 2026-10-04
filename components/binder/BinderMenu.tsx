@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, Library, Pencil } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
-import { CARD_LIST } from "@/lib/constants";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import {
   useBindersHydrated,
@@ -20,9 +19,20 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
   const maxPages =
-    (activePocketSize && Math.ceil(CARD_LIST.length / activePocketSize)) ?? 1;
+    (activePocketSize &&
+      activeBinder?.cardList &&
+      Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
+    1;
+  console.log(
+    "maxPages",
+    activeBinder,
+    activeTab,
+    activeBinder?.cardList.length,
+    activePocketSize,
+    Math.ceil((activeBinder?.cardList.length ?? 1) / (activePocketSize || 1)),
+  );
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentPage(0);
   }, [activePocketSize, setCurrentPage]);
 
   const isMobile = useIsMobile();
@@ -55,7 +65,7 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
             )}
           </div>
           <p className="text-secondary text-sm font-semibold">
-            {CARD_LIST.length} Cards
+            {activeBinder?.cardList.length ?? 0} Cards
           </p>
         </div>
       </div>

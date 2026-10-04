@@ -1,3 +1,5 @@
+import { CardDataType } from "./types";
+
 export function chunkArray<T>(array: T[], k: number): T[][] {
   const result: T[][] = [];
 
@@ -7,4 +9,8 @@ export function chunkArray<T>(array: T[], k: number): T[][] {
   }
 
   return result;
+}
+
+export function createNewCardList(): CardDataType[] {
+  return Array.from({ length: 24 }, () => null);
 }

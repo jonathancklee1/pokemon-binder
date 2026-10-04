@@ -3,6 +3,7 @@ import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 import { CardDataType } from "../types";
 import { DEFAULT_BINDERS } from "./defaultBinders";
+import { createNewCardList } from "../utils";
 
 export type BinderType = {
   id: string;
@@ -13,7 +14,7 @@ export type BinderType = {
 };
 
 export type BindersState = {
-  binders: BinderType[];
+  binders: BinderType[] | [];
 };
 
 export type BindersActions = {
@@ -22,12 +23,13 @@ export type BindersActions = {
   removeCard: () => void;
   changeCurrentPage: (number: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
+  addCollection: () => string;
 };
 
 export type BindersStore = BindersState & BindersActions;
 
 export const defaultInitState: BindersState = {
-  binders: DEFAULT_BINDERS,
+  binders: [],
 };
 
 export const createBindersStore = (
@@ -58,11 +60,34 @@ export const createBindersStore = (
               return binder;
             }),
           })),
+        addCollection: () => {
+          const id = crypto.randomUUID();
+          set((state) => {
+            const newNameCount = state.binders.reduce(
+              (count, binder) =>
+                binder.name.startsWith("New Collection") ? count + 1 : count,
+              0,
+            );
+            const newCollectionName = `New Collection ${newNameCount + 1}`;
+            return {
+              binders: [
+                ...state.binders,
+                {
+                  id,
+                  name: newCollectionName,
+                  cardList: createNewCardList(),
+                  pocketSize: 4,
+                  currentPage: 1,
+                },
+              ],
+            };
+          });
+          return id;
+        },
       }),
       {
         name: "binders-storage",
         partialize: (state) => ({ binders: state.binders }),
-        // Rehydrated manually on mount to avoid SSR hydration mismatch.
         skipHydration: true,
       },
     ),

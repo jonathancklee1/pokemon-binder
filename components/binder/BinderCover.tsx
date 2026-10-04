@@ -19,7 +19,7 @@ const coverColorStyle = (color: string) =>
 /** Poke Ball emblem built from CSS shapes. */
 function PokeBallEmblem() {
   return (
-    <div className="relative size-24 overflow-hidden rounded-full border-4 border-black shadow-[0_6px_16px_rgba(0,0,0,0.6)] md:size-32">
+    <div className="shadow-inner- relative size-24 overflow-hidden rounded-full border-4 border-black md:size-32">
       <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-red-500 to-red-600" />
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-white to-slate-300" />
       <div className="absolute inset-x-0 top-1/2 h-2 -translate-y-1/2 bg-black md:h-3" />
@@ -30,7 +30,6 @@ function PokeBallEmblem() {
   );
 }
 
-/** Front cover of a closed binder, labelled with the collection title. */
 function BinderCover({
   title,
   color = DEFAULT_COVER_COLOR,
@@ -70,7 +69,6 @@ function BinderCover({
   );
 }
 
-/** Plain inside of the front cover, shown opposite the first page. */
 export function BinderInsideCover({
   color = DEFAULT_COVER_COLOR,
   className,
@@ -84,7 +82,6 @@ export function BinderInsideCover({
       )}
       style={coverColorStyle(color)}
     >
-      {/* Stitched border */}
       <div className="absolute inset-y-3 right-9 left-3 rounded-l-3xl rounded-r-md border-2 border-dashed border-black/20" />
     </div>
   );

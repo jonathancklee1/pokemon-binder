@@ -4,13 +4,17 @@ import Image from "next/image";
 function PokemonCard({ cardData }: { cardData: CardDataType }) {
   if (!cardData) {
     return (
-      <div className="card sleeve grid place-items-center rounded-none border border-white/20 bg-white/10 p-6 shadow-lg backdrop-blur-md"></div>
+      <div className="card sleeve grid aspect-110/154 place-items-center rounded-none border border-white/20 bg-white/10 p-6 shadow-lg backdrop-blur-md"></div>
     );
   }
   return (
     <div className="card sleeve group relative overflow-hidden rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
       <figure className="w-full">
-        <Image src={cardData.image} alt="Pokemon" className="rounded-lg" />
+        <Image
+          src={cardData.image}
+          alt="Pokemon"
+          className="w-full rounded-lg"
+        />
       </figure>
       <span className="badge badge-xs badge-warning absolute top-2 right-2 -translate-y-6.25 px-2 font-bold transition-transform group-hover:translate-y-0">
         {cardData.variant}

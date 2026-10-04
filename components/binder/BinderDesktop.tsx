@@ -48,7 +48,6 @@ function BinderDesktop({
   //Right page
   switch (currentPage) {
     case 0:
-      // Invisible first page sizes the cover so it scales with the screen.
       rightPage = (
         <div className="relative">
           <div className="invisible">
