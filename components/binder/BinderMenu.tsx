@@ -9,13 +9,16 @@ import {
   useBindersStore,
 } from "@/lib/stores/BinderStoreProvider";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
+import ColourPicker from "../ColourPicker";
 
 export interface BinderMenuProps {
   activeTab: string;
 }
 
 function BinderMenu({ activeTab }: BinderMenuProps) {
-  const { changeName, setPocketSize } = useBindersStore((state) => state);
+  const { changeName, setPocketSize, setColour } = useBindersStore(
+    (state) => state,
+  );
   const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
   // const maxPages =
@@ -24,14 +27,14 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   //     Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
   //   1;
   const maxPages = 21;
-  console.log(
-    "maxPages",
-    activeBinder,
-    activeTab,
-    activeBinder?.cardList.length,
-    activePocketSize,
-    Math.ceil((activeBinder?.cardList.length ?? 1) / (activePocketSize || 1)),
-  );
+  // console.log(
+  //   "maxPages",
+  //   activeBinder,
+  //   activeTab,
+  //   activeBinder?.cardList.length,
+  //   activePocketSize,
+  //   Math.ceil((activeBinder?.cardList.length ?? 1) / (activePocketSize || 1)),
+  // );
   useEffect(() => {
     setCurrentPage(0);
   }, [activePocketSize, setCurrentPage]);
@@ -47,10 +50,32 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   }, 0);
 
   return (
-    <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
+    <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 rounded-xl border p-4">
       <div className="flex items-center gap-3">
-        <div className="bg-secondary/15 text-secondary flex size-11 items-center justify-center rounded-xl">
-          <Library className="size-5" />
+        <div className="text-secondary flex size-11 items-center justify-center rounded-xl">
+          <div className="dropdown">
+            <div
+              tabIndex={0}
+              role="button"
+              className="text-secondary flex size-11 cursor-pointer items-center justify-center rounded-xl"
+              style={{ backgroundColor: activeBinder?.colour ?? "#facc15" }}
+            >
+              <Library className="size-5 text-white" />
+            </div>
+            <div
+              tabIndex={0}
+              className="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md"
+            >
+              <div className="card-body">
+                <ColourPicker
+                  currentColour={activeBinder?.colour ?? "#facc15"}
+                  setCurrentColour={(colour) =>
+                    setColour(activeBinder?.id ?? "", colour)
+                  }
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <div className="text-primary mb-1 flex w-fit items-center gap-1 text-xl font-bold">

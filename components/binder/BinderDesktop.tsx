@@ -17,7 +17,6 @@ function BinderDesktop({
   const { currentPage } = useContext(PageNumberContext);
   const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
   const chunkedCardList = chunkArray(cardList, activePocketSize || 1);
-  console.log("chunkedCardList", chunkedCardList);
 
   //Page 0 is closed binder, page 1 is Binder cover + right page, page 2 is left page + right page
 
@@ -26,15 +25,19 @@ function BinderDesktop({
 
   const leftCardList = chunkedCardList[(currentPage - 1) * 2 - 1] || [];
   const rightCardList = chunkedCardList[(currentPage - 1) * 2] || [];
-  console.log("leftCardList", leftCardList, (currentPage - 1) * 2 - 1);
-  console.log("rightCardList", rightCardList, (currentPage - 1) * 2);
   //Left page
   switch (currentPage) {
     case 0:
       leftPage = null;
       break;
     case 1:
-      leftPage = <BinderInsideCover className="h-full" layout="left" />;
+      leftPage = (
+        <BinderInsideCover
+          className="h-full"
+          layout="left"
+          activeTab={activeTab}
+        />
+      );
       break;
     default:
       leftPage = (
@@ -46,7 +49,6 @@ function BinderDesktop({
   }
 
   //Right page
-  console.log("currentPage", currentPage);
   switch (currentPage) {
     case 0:
       rightPage = (
@@ -61,12 +63,19 @@ function BinderDesktop({
             title={activeBinder?.name}
             className="absolute inset-0"
             layout="right"
+            activeTab={activeTab}
           />
         </div>
       );
       break;
     case 21:
-      rightPage = <BinderInsideCover className="h-full" layout="right" />;
+      rightPage = (
+        <BinderInsideCover
+          className="h-full"
+          layout="right"
+          activeTab={activeTab}
+        />
+      );
       break;
     default:
       rightPage = (

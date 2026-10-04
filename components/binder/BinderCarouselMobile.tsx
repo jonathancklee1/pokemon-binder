@@ -30,7 +30,6 @@ function BinderCarouselMobile({
       ref={carouselRef}
       scrollDistance="slide"
       afterSlide={setCurrentPage}
-      showDots
     >
       {Array.from({ length: binderPageNum + 1 }, (_, pageIndex) => {
         if (pageIndex === 0)
@@ -39,6 +38,8 @@ function BinderCarouselMobile({
               key="cover"
               title={activeBinder.name}
               className="w-full shrink-0"
+              layout="left"
+              activeTab={activeTab}
             />
           );
         const startIndex = (pageIndex - 1) * activePocketSize;

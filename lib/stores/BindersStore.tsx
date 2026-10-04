@@ -10,6 +10,7 @@ export type BinderType = {
   cardList: CardDataType[];
   pocketSize: 4 | 9 | 12;
   currentPage: number;
+  colour?: string;
 };
 
 export type BindersState = {
@@ -23,6 +24,7 @@ export type BindersActions = {
   changeCurrentPage: (number: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
   addCollection: () => string;
+  setColour: (id: string, colour: string) => void;
 };
 
 export type BindersStore = BindersState & BindersActions;
@@ -59,6 +61,15 @@ export const createBindersStore = (
               return binder;
             }),
           })),
+        setColour: (id, colour) =>
+          set((state) => ({
+            binders: state.binders.map((binder) => {
+              if (binder.id === id) {
+                return { ...binder, colour };
+              }
+              return binder;
+            }),
+          })),
         addCollection: () => {
           const id = crypto.randomUUID();
           set((state) => {
@@ -77,6 +88,7 @@ export const createBindersStore = (
                   cardList: createNewCardList(),
                   pocketSize: 4,
                   currentPage: 1,
+                  colour: "#facc15",
                 },
               ],
             };

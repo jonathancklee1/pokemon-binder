@@ -43,7 +43,19 @@ export default function TabContainer({
             }`}
             onClick={() => setActiveTab(binder?.id)}
           >
-            {hydrated ? binder?.name : <span className="skeleton h-4 w-24" />}
+            {hydrated ? (
+              <div className="flex items-center gap-2">
+                <div
+                  className="size-3 rounded-full"
+                  style={{
+                    backgroundColor: binder.colour,
+                  }}
+                ></div>
+                <span>{binder?.name}</span>
+              </div>
+            ) : (
+              <span className="skeleton h-4 w-24" />
+            )}
           </button>
         ))}
         <button

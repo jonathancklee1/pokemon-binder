@@ -1,21 +1,22 @@
+import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 import type { CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
 
-const DEFAULT_COVER_COLOR = "var(--secondary)";
+const DEFAULT_COVER_COLOuR = "var(--secondary)";
 
-/** Shared cover surface: main colour from `--cover-color` plus a soft sheen. */
+/** Shared cover surface: main colour from `--cover-colour` plus a soft sheen. */
 const COVER_SURFACE =
-  "relative overflow-hidden bg-(--cover-color) bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.25),transparent_60%)] shadow-[0_10px_30px_rgba(0,0,0,0.35)]";
+  "relative overflow-hidden bg-(--cover-colour) bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.25),transparent_60%)] shadow-[0_10px_30px_rgba(0,0,0,0.35)]";
 
 type CoverProps = {
-  /** Main cover colour, any CSS colour value. */
-  color?: string;
+  colour?: string;
   className?: string;
   layout: "left" | "right";
+  activeTab: string;
 };
 
-const coverColorStyle = (color: string) =>
-  ({ "--cover-color": color }) as CSSProperties;
+const coverColourStyle = (colour: string) =>
+  ({ "--cover-colour": colour }) as CSSProperties;
 
 /** Poke Ball emblem built from CSS shapes. */
 function PokeBallEmblem() {
@@ -33,9 +34,12 @@ function PokeBallEmblem() {
 
 function BinderCover({
   title,
-  color = DEFAULT_COVER_COLOR,
+  colour = DEFAULT_COVER_COLOuR,
   className,
+  activeTab,
 }: CoverProps & { title?: string }) {
+  const { activeBinder } = useActiveBinder(activeTab);
+  console.log("activeBinder", activeBinder, activeTab);
   return (
     <div
       className={twMerge(
@@ -43,7 +47,7 @@ function BinderCover({
         "rounded-l-lg rounded-r-4xl",
         className,
       )}
-      style={coverColorStyle(color)}
+      style={coverColourStyle(activeBinder?.colour ?? colour)}
     >
       {/* Spine */}
       <div className="absolute inset-y-0 left-0 w-6 border-r border-black/10 bg-linear-to-r from-black/40 to-black/10" />
@@ -71,7 +75,7 @@ function BinderCover({
 }
 
 export function BinderInsideCover({
-  color = DEFAULT_COVER_COLOR,
+  colour = DEFAULT_COVER_COLOuR,
   className,
   layout,
 }: CoverProps) {
@@ -84,7 +88,7 @@ export function BinderInsideCover({
           : "rounded-l-lg rounded-r-4xl",
         className,
       )}
-      style={coverColorStyle(color)}
+      style={coverColourStyle(colour)}
     >
       <div
         className={`absolute inset-y-3 right-9 left-3 ${layout === "left" ? "rounded-l-3xl rounded-r-md" : "rounded-l-md rounded-r-3xl"} border-2 border-dashed border-black/20`}
