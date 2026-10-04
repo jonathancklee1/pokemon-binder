@@ -34,7 +34,7 @@ function BinderDesktop({
       leftPage = null;
       break;
     case 1:
-      leftPage = <BinderInsideCover className="h-full" />;
+      leftPage = <BinderInsideCover className="h-full" layout="left" />;
       break;
     default:
       leftPage = (
@@ -46,6 +46,7 @@ function BinderDesktop({
   }
 
   //Right page
+  console.log("currentPage", currentPage);
   switch (currentPage) {
     case 0:
       rightPage = (
@@ -59,11 +60,14 @@ function BinderDesktop({
           <BinderCover
             title={activeBinder?.name}
             className="absolute inset-0"
+            layout="right"
           />
         </div>
       );
       break;
-
+    case 21:
+      rightPage = <BinderInsideCover className="h-full" layout="right" />;
+      break;
     default:
       rightPage = (
         <BinderPage

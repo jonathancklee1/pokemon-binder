@@ -2,7 +2,6 @@
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 import { CardDataType } from "../types";
-import { DEFAULT_BINDERS } from "./defaultBinders";
 import { createNewCardList } from "../utils";
 
 export type BinderType = {

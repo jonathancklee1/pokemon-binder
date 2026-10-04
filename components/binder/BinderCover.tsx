@@ -11,6 +11,7 @@ type CoverProps = {
   /** Main cover colour, any CSS colour value. */
   color?: string;
   className?: string;
+  layout: "left" | "right";
 };
 
 const coverColorStyle = (color: string) =>
@@ -72,17 +73,22 @@ function BinderCover({
 export function BinderInsideCover({
   color = DEFAULT_COVER_COLOR,
   className,
+  layout,
 }: CoverProps) {
   return (
     <div
       className={twMerge(
         COVER_SURFACE,
-        "rounded-l-4xl rounded-r-lg",
+        layout === "left"
+          ? "rounded-l-4xl rounded-r-lg"
+          : "rounded-l-lg rounded-r-4xl",
         className,
       )}
       style={coverColorStyle(color)}
     >
-      <div className="absolute inset-y-3 right-9 left-3 rounded-l-3xl rounded-r-md border-2 border-dashed border-black/20" />
+      <div
+        className={`absolute inset-y-3 right-9 left-3 ${layout === "left" ? "rounded-l-3xl rounded-r-md" : "rounded-l-md rounded-r-3xl"} border-2 border-dashed border-black/20`}
+      />
     </div>
   );
 }

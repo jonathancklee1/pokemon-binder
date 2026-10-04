@@ -35,9 +35,9 @@ export default function TabContainer({
           <button
             key={binder?.id}
             role="tab"
-            aria-selected={binder?.id === activeTab}
+            aria-selected={binder?.id === selectedTab}
             className={`tab rounded-t-xl p-2 font-bold whitespace-nowrap ${
-              binder?.id === activeTab
+              binder?.id === selectedTab
                 ? "tab-active border-secondary border-2 border-b-0"
                 : ""
             }`}

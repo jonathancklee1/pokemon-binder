@@ -12,5 +12,5 @@ export function chunkArray<T>(array: T[], k: number): T[][] {
 }
 
 export function createNewCardList(): CardDataType[] {
-  return Array.from({ length: 24 }, () => null);
+  return Array.from({ length: 480 }, () => null);
 }

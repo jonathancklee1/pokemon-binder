@@ -18,11 +18,12 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   const { changeName, setPocketSize } = useBindersStore((state) => state);
   const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
-  const maxPages =
-    (activePocketSize &&
-      activeBinder?.cardList &&
-      Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
-    1;
+  // const maxPages =
+  //   (activePocketSize &&
+  //     activeBinder?.cardList &&
+  //     Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
+  //   1;
+  const maxPages = 21;
   console.log(
     "maxPages",
     activeBinder,
@@ -37,6 +38,14 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
 
   const isMobile = useIsMobile();
   const hydrated = useBindersHydrated();
+
+  const totalCards = activeBinder?.cardList.reduce((acc, card) => {
+    if (card !== null) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+
   return (
     <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl border p-4">
       <div className="flex items-center gap-3">
@@ -65,7 +74,7 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
             )}
           </div>
           <p className="text-secondary text-sm font-semibold">
-            {activeBinder?.cardList.length ?? 0} Cards
+            {totalCards} Cards
           </p>
         </div>
       </div>
