@@ -8,6 +8,7 @@ import {
 } from "@/lib/stores/BinderStoreProvider";
 import { Plus } from "lucide-react";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
+import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
 export default function TabContainer({
   binderArray,
@@ -58,19 +59,25 @@ export default function TabContainer({
             )}
           </button>
         ))}
-        <button
-          role="tab"
-          className="tab hover:bg-secondary/10 hover:text-secondary rounded-t-xl p-2 font-bold whitespace-nowrap"
-          onClick={() => handleAddCollection()}
-        >
-          {<Plus className="size-5" />}
-        </button>
+        {binders.length > 0 && (
+          <button
+            role="tab"
+            className="tab hover:bg-secondary/10 hover:text-secondary rounded-t-xl p-2 font-bold whitespace-nowrap"
+            onClick={() => handleAddCollection()}
+          >
+            {<Plus className="size-5" />}
+          </button>
+        )}
       </div>
       <div
         role="tabpanel"
         className="border-base-300 bg-base-100 rounded-box rounded-ss-none border p-3"
       >
-        <BinderContent activeTab={selectedTab} />
+        <ActiveTabContext.Provider
+          value={{ activeTab: selectedTab ?? "", setActiveTab: setActiveTab }}
+        >
+          <BinderContent />
+        </ActiveTabContext.Provider>
       </div>
     </div>
   );

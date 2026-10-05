@@ -6,10 +6,10 @@ import BinderFolderSkeleton from "./BinderFolderSkeleton";
 import { useBindersHydrated } from "@/lib/stores/BinderStoreProvider";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
-function BinderFolder({ activeTab }: { activeTab: string }) {
+function BinderFolder() {
   const hydrated = useBindersHydrated();
   const [isMobile, setIsMobile] = useState(false);
-  const { activeBinder } = useActiveBinder(activeTab);
+  const { activeBinder } = useActiveBinder();
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
@@ -24,15 +24,9 @@ function BinderFolder({ activeTab }: { activeTab: string }) {
   return (
     <div>
       {isMobile ? (
-        <BinderCarouselMobile
-          cardList={activeBinder?.cardList || []}
-          activeTab={activeTab}
-        />
+        <BinderCarouselMobile cardList={activeBinder?.cardList || []} />
       ) : (
-        <BinderDesktop
-          cardList={activeBinder?.cardList || []}
-          activeTab={activeTab}
-        />
+        <BinderDesktop cardList={activeBinder?.cardList || []} />
       )}
     </div>
   );

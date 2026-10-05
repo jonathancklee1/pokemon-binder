@@ -12,7 +12,6 @@ type CoverProps = {
   colour?: string;
   className?: string;
   layout: "left" | "right";
-  activeTab: string;
 };
 
 const coverColourStyle = (colour: string) =>
@@ -36,10 +35,8 @@ function BinderCover({
   title,
   colour = DEFAULT_COVER_COLOuR,
   className,
-  activeTab,
 }: CoverProps & { title?: string }) {
-  const { activeBinder } = useActiveBinder(activeTab);
-  console.log("activeBinder", activeBinder, activeTab);
+  const { activeBinder } = useActiveBinder();
   return (
     <div
       className={twMerge(
@@ -79,6 +76,7 @@ export function BinderInsideCover({
   className,
   layout,
 }: CoverProps) {
+  const { activeBinder } = useActiveBinder();
   return (
     <div
       className={twMerge(
@@ -88,7 +86,7 @@ export function BinderInsideCover({
           : "rounded-l-lg rounded-r-4xl",
         className,
       )}
-      style={coverColourStyle(colour)}
+      style={coverColourStyle(activeBinder?.colour ?? colour)}
     >
       <div
         className={`absolute inset-y-3 right-9 left-3 ${layout === "left" ? "rounded-l-3xl rounded-r-md" : "rounded-l-md rounded-r-3xl"} border-2 border-dashed border-black/20`}

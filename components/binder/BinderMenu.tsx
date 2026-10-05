@@ -1,5 +1,11 @@
 "use client";
-import { ChevronLeft, ChevronRight, Library, Pencil } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Pencil,
+  Pipette,
+  Trash,
+} from "lucide-react";
 import { useContext, useEffect } from "react";
 import { POCKET_SIZES } from "@/lib/constants";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
@@ -10,23 +16,21 @@ import {
 } from "@/lib/stores/BinderStoreProvider";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 import ColourPicker from "../ColourPicker";
+import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
-export interface BinderMenuProps {
-  activeTab: string;
-}
-
-function BinderMenu({ activeTab }: BinderMenuProps) {
-  const { changeName, setPocketSize, setColour } = useBindersStore(
-    (state) => state,
-  );
-  const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
+function BinderMenu() {
+  const { changeName, setPocketSize, setColour, removeCollection, binders } =
+    useBindersStore((state) => state);
+  const { activeBinder, activePocketSize } = useActiveBinder();
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
+  const { activeTab, setActiveTab } = useContext(ActiveTabContext);
+  const isMobile = useIsMobile();
   // const maxPages =
   //   (activePocketSize &&
   //     activeBinder?.cardList &&
   //     Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
   //   1;
-  const maxPages = 21;
+  const maxPages = isMobile ? 42 : 21;
   // console.log(
   //   "maxPages",
   //   activeBinder,
@@ -35,11 +39,18 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   //   activePocketSize,
   //   Math.ceil((activeBinder?.cardList.length ?? 1) / (activePocketSize || 1)),
   // );
+  function handleRemoveCollection() {
+    removeCollection(activeBinder?.id ?? "");
+    setActiveTab(
+      binders.length - 2 ? (binders[binders.length - 2]?.id ?? "") : undefined,
+    );
+    // The daisyUI dropdown stays open while focus is inside it
+    (document.activeElement as HTMLElement | null)?.blur();
+  }
   useEffect(() => {
     setCurrentPage(0);
   }, [activePocketSize, setCurrentPage]);
 
-  const isMobile = useIsMobile();
   const hydrated = useBindersHydrated();
 
   const totalCards = activeBinder?.cardList.reduce((acc, card) => {
@@ -50,61 +61,91 @@ function BinderMenu({ activeTab }: BinderMenuProps) {
   }, 0);
 
   return (
-    <div className="bg-secondary-background border-border-color flex flex-wrap items-center justify-between gap-4 rounded-xl border p-4">
-      <div className="flex items-center gap-3">
-        <div className="text-secondary flex size-11 items-center justify-center rounded-xl">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="text-secondary flex size-11 cursor-pointer items-center justify-center rounded-xl"
-              style={{ backgroundColor: activeBinder?.colour ?? "#facc15" }}
-            >
-              <Library className="size-5 text-white" />
-            </div>
-            <div
-              tabIndex={0}
-              className="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md"
-            >
-              <div className="card-body">
-                <ColourPicker
-                  currentColour={activeBinder?.colour ?? "#facc15"}
-                  setCurrentColour={(colour) =>
-                    setColour(activeBinder?.id ?? "", colour)
-                  }
-                />
+    <div className="bg-secondary-background border-border-color mb-3 flex flex-wrap items-center justify-between gap-4 rounded-xl border p-4">
+      <div className="flex w-full justify-between">
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-secondary flex size-11 items-center justify-center rounded-xl">
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="text-secondary flex size-11 cursor-pointer items-center justify-center rounded-xl"
+                style={{ backgroundColor: activeBinder?.colour ?? "#facc15" }}
+              >
+                <Pipette className="size-5 text-white" />
+              </div>
+              <div
+                tabIndex={0}
+                className="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md"
+              >
+                <div className="card-body">
+                  <ColourPicker
+                    currentColour={activeBinder?.colour ?? "#facc15"}
+                    setCurrentColour={(colour) =>
+                      setColour(activeBinder?.id ?? "", colour)
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <div className="text-primary mb-1 flex w-fit items-center gap-1 text-xl font-bold">
-            <Pencil className="size-3.5" />
-            {hydrated ? (
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-ghost hover:border-secondary h-8 w-3/4 cursor-text border-2 p-0 pl-2 text-xl focus:ring-0 focus:outline-none"
-                value={activeBinder && activeBinder.name}
-                onChange={(e) =>
-                  changeName(
-                    (activeBinder && activeBinder.id) ?? "",
-                    e.target.value,
-                  )
-                }
-                aria-label="Binder name"
-              />
-            ) : (
-              <div className="skeleton h-8 w-48" />
-            )}
+          <div>
+            <div className="text-primary mb-1 flex w-fit items-center gap-1 text-xl font-bold">
+              <Pencil className="size-3.5" />
+              {hydrated ? (
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-ghost hover:border-secondary h-8 w-3/4 cursor-text border-2 p-0 pl-2 text-xl focus:ring-0 focus:outline-none"
+                  value={activeBinder?.name ?? ""}
+                  onChange={(e) =>
+                    changeName(
+                      (activeBinder && activeBinder.id) ?? "",
+                      e.target.value,
+                    )
+                  }
+                  aria-label="Binder name"
+                />
+              ) : (
+                <div className="skeleton h-8 w-48" />
+              )}
+            </div>
+            <p className="text-secondary text-sm font-semibold">
+              {totalCards} Cards
+            </p>
           </div>
-          <p className="text-secondary text-sm font-semibold">
-            {totalCards} Cards
-          </p>
+        </div>
+        <div className="dropdown dropdown-bottom dropdown-end h-fit pb-1">
+          <button
+            tabIndex={0}
+            role="button"
+            className="btn btn-sm hover:btn-error"
+            aria-label="New binder"
+          >
+            <Trash />
+          </button>
+          <div
+            tabIndex={0}
+            className="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md"
+          >
+            <div className="card-body">
+              <p className="text-base font-bold">
+                Are you sure you want to delete this binder? <br />
+                Changes cannot be reverted!
+              </p>
+              <button
+                className="btn btn-wide btn-error"
+                onClick={handleRemoveCollection}
+              >
+                <Trash />
+                Delete Binder
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex w-full flex-wrap items-center justify-between gap-3 lg:w-fit">
+      <div className="flex w-full flex-wrap items-center justify-between gap-3">
         <div className="tabs tabs-box max-w-90 flex-nowrap justify-between overflow-x-auto sm:w-fit sm:justify-start sm:gap-2">
           {POCKET_SIZES.map((size) => (
             <input

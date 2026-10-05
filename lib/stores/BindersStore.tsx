@@ -24,6 +24,7 @@ export type BindersActions = {
   changeCurrentPage: (number: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
   addCollection: () => string;
+  removeCollection: (id: string) => void;
   setColour: (id: string, colour: string) => void;
 };
 
@@ -69,6 +70,10 @@ export const createBindersStore = (
               }
               return binder;
             }),
+          })),
+        removeCollection: (id) =>
+          set((state) => ({
+            binders: state.binders.filter((binder) => binder.id !== id),
           })),
         addCollection: () => {
           const id = crypto.randomUUID();

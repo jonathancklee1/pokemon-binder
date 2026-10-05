@@ -6,14 +6,8 @@ import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useContext, useEffect, useRef } from "react";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
-function BinderCarouselMobile({
-  cardList,
-  activeTab,
-}: {
-  cardList: CardDataType[];
-  activeTab: string;
-}) {
-  const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
+function BinderCarouselMobile({ cardList }: { cardList: CardDataType[] }) {
+  const { activeBinder, activePocketSize } = useActiveBinder();
   const binderPageNum = activePocketSize
     ? Math.ceil(cardList.length / activePocketSize)
     : 1;
@@ -22,6 +16,7 @@ function BinderCarouselMobile({
   const carouselRef = useRef<SlideHandle>(null);
 
   useEffect(() => {
+    console.log("currentPage", currentPage);
     carouselRef.current?.goToPage(currentPage);
   }, [currentPage]);
   if (!activeBinder || !activePocketSize) return null;
@@ -39,7 +34,6 @@ function BinderCarouselMobile({
               title={activeBinder.name}
               className="w-full shrink-0"
               layout="left"
-              activeTab={activeTab}
             />
           );
         const startIndex = (pageIndex - 1) * activePocketSize;

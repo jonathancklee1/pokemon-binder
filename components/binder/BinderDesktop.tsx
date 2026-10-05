@@ -7,15 +7,9 @@ import { chunkArray } from "@/lib/utils";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
-function BinderDesktop({
-  cardList,
-  activeTab,
-}: {
-  cardList: CardDataType[];
-  activeTab: string;
-}) {
+function BinderDesktop({ cardList }: { cardList: CardDataType[] }) {
   const { currentPage } = useContext(PageNumberContext);
-  const { activeBinder, activePocketSize } = useActiveBinder(activeTab);
+  const { activeBinder, activePocketSize } = useActiveBinder();
   const chunkedCardList = chunkArray(cardList, activePocketSize || 1);
 
   //Page 0 is closed binder, page 1 is Binder cover + right page, page 2 is left page + right page
@@ -31,13 +25,7 @@ function BinderDesktop({
       leftPage = null;
       break;
     case 1:
-      leftPage = (
-        <BinderInsideCover
-          className="h-full"
-          layout="left"
-          activeTab={activeTab}
-        />
-      );
+      leftPage = <BinderInsideCover className="h-full" layout="left" />;
       break;
     default:
       leftPage = (
@@ -63,19 +51,12 @@ function BinderDesktop({
             title={activeBinder?.name}
             className="absolute inset-0"
             layout="right"
-            activeTab={activeTab}
           />
         </div>
       );
       break;
     case 21:
-      rightPage = (
-        <BinderInsideCover
-          className="h-full"
-          layout="right"
-          activeTab={activeTab}
-        />
-      );
+      rightPage = <BinderInsideCover className="h-full" layout="right" />;
       break;
     default:
       rightPage = (
