@@ -1,44 +1,94 @@
 @import "tailwindcss";
-
+@plugin "daisyui";
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+  --background: #ffffff;
+  --secondary-background: #2c303b;
+  --secondary: #facc15;
+  --foreground: #171717;
+  --border: #5a5e6a;
 }
 
 @theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-secondary: #facc15;
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-primary: #ffffff;
+  --color-secondary: var(--secondary);
+  --color-border-color: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-    }
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 @layer components {
-    .container {
-        @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900;
-    }
+  .container {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900;
+  }
+
+  /* Glossy plastic binder-pocket overlay. The diagonal glare slides on hover. */
+  .sleeve {
+    position: relative;
+  }
+  .sleeve::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        115deg,
+        transparent 30%,
+        rgb(255 255 255 / 0.28) 42%,
+        transparent 50%,
+        transparent 58%,
+        rgb(255 255 255 / 0.12) 64%,
+        transparent 70%
+      ),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.14), transparent 25%);
+    background-size:
+      250% 250%,
+      100% 100%;
+    background-position:
+      100% 100%,
+      0 0;
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.3),
+      inset 0 2px 3px rgb(255 255 255 / 0.35),
+      inset 0 -3px 6px rgb(0 0 0 / 0.2);
+    transition: background-position 0.7s ease;
+  }
+  .sleeve:hover::after {
+    background-position:
+      0 0,
+      0 0;
+  }
+}
+
+@layer base {
+  main {
+    @apply text-primary px-4 py-6;
+  }
 }
 body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        Segoe UI,
-        Roboto,
-        Oxygen,
-        Ubuntu,
-        Cantarell,
-        Fira Sans,
-        Droid Sans,
-        Helvetica Neue,
-        sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
 }
