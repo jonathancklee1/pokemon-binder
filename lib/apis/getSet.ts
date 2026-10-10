@@ -1,6 +1,7 @@
 import { cacheLife } from "next/cache";
+import type { SetDetailType } from "@/lib/types";
 
-async function getSet(id: string) {
+async function getSet(id: string): Promise<SetDetailType> {
   "use cache";
   cacheLife("days");
   const res = await fetch(`https://api.tcgdex.net/v2/en/sets/${id}`);
