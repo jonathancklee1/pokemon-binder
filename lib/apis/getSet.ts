@@ -1,6 +1,6 @@
 import { cacheLife } from "next/cache";
 
-async function getSet({ id }: { id: string }) {
+async function getSet(id: string) {
   "use cache";
   cacheLife("days");
   const res = await fetch(`https://api.tcgdex.net/v2/en/sets/${id}`);

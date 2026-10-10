@@ -7,6 +7,13 @@ export type CardDataType = {
   variant?: string;
 } | null;
 
+export interface CardBriefType {
+  id: string;
+  image: string;
+  localId: string;
+  name: string;
+}
+
 export interface SetType {
   id: string;
   name: string;

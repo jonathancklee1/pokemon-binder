@@ -1,8 +1,14 @@
+import { Suspense } from "react";
 import SetContainer from "@/components/set-list/SetContainer";
+import SetGridSkeleton from "@/components/set-list/SetGridSkeleton";
 import { getSets } from "@/lib/apis/getSets";
 
-export default async function SetListPage() {
+async function Sets() {
   const sets = await getSets();
+  return <SetContainer sets={sets} />;
+}
+
+export default function SetListPage() {
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 font-sans dark:bg-black">
       <main>
@@ -13,7 +19,9 @@ export default async function SetListPage() {
             personal checklist progress.
           </p>
         </div>
-        <SetContainer sets={sets} />
+        <Suspense fallback={<SetGridSkeleton />}>
+          <Sets />
+        </Suspense>
       </main>
     </div>
   );

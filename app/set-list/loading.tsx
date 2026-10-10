@@ -1,11 +1,5 @@
-import SetCardSkeleton from "@/components/set-list/SetCardSkeleton";
+import SetGridSkeleton from "@/components/set-list/SetGridSkeleton";
 
 export default function Loading() {
-  return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-6">
-      {Array.from({ length: 12 }, (_, i) => (
-        <SetCardSkeleton key={i} />
-      ))}
-    </div>
-  );
+  return <SetGridSkeleton />;
 }
