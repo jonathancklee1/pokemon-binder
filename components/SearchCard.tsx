@@ -2,28 +2,47 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
+import { CardBriefType } from "@/lib/types";
 
 function SearchCard({
   cardData,
+  handleClick,
 }: {
-  cardData: { name: string; image: string };
+  cardData: CardBriefType;
+  handleClick: () => void;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
   return (
-    <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
+    <div
+      className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md"
+      onClick={() => {
+        const modal = document.getElementById(
+          "card-modal",
+        ) as HTMLDialogElement;
+        modal.showModal();
+        handleClick();
+      }}
+    >
       <div className="hover-3d z-1 w-full">
         <figure
           className={`relative w-full cursor-pointer ${imageLoaded ? "" : "skeleton"}`}
         >
-          <Image
-            src={`${cardData.image}/${isMobile ? "low" : "high"}.webp`}
-            alt="Pokemon"
-            width={245}
-            height={337}
-            onLoad={() => setImageLoaded(true)}
-            className={`w-full rounded-lg transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-          />
+          {cardData.image ? (
+            <Image
+              src={`${cardData.image}/${isMobile ? "low" : "high"}.webp`}
+              alt={cardData.name}
+              width={245}
+              height={337}
+              onLoad={() => setImageLoaded(true)}
+              className={`w-full rounded-lg transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+              <span className="">Image Unavailable</span>
+            </div>
+          )}
+
           {!imageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center text-gray-500">
               <span className="loading loading-spinner loading-xs"></span>
