@@ -2,7 +2,7 @@
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 import { CardDataType } from "../types";
-import { createNewCardList } from "../utils";
+import { createNewCardList, getRandomHexColour } from "../utils";
 
 export type BinderType = {
   id: string;
@@ -93,7 +93,7 @@ export const createBindersStore = (
                   cardList: createNewCardList(),
                   pocketSize: 4,
                   currentPage: 1,
-                  colour: "#facc15",
+                  colour: getRandomHexColour(),
                 },
               ],
             };
