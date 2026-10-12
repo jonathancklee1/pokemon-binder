@@ -1,3 +1,4 @@
+"use client";
 import TabContainer from "./TabContainer";
 import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
 

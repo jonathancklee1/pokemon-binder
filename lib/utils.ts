@@ -1,4 +1,4 @@
-import { CardDataType } from "./types";
+import { CardBriefType } from "./types";
 
 export function chunkArray<T>(array: T[], k: number): T[][] {
   const result: T[][] = [];
@@ -11,7 +11,7 @@ export function chunkArray<T>(array: T[], k: number): T[][] {
   return result;
 }
 
-export function createNewCardList(): CardDataType[] {
+export function createNewCardList(): CardBriefType[] | null[] {
   return Array.from({ length: 480 }, () => null);
 }
 

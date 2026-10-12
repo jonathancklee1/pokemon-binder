@@ -1,6 +1,6 @@
 "use client";
 
-import SearchCard from "@/components/SearchCard";
+import PokemonSetCard from "@/components/PokemonSetCard";
 import SetFilter from "@/components/set-list/SetFilter";
 import SetGrid from "@/components/set-list/SetGrid";
 import type { CardBriefType } from "@/lib/types";
@@ -30,7 +30,7 @@ function CardFilterAndGrid({
       )}
       <SetGrid>
         {filteredCards.map((card) => (
-          <SearchCard
+          <PokemonSetCard
             key={card.id}
             cardData={card}
             handleClick={() => handleCardClick(card)}
