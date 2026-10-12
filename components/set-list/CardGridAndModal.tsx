@@ -1,8 +1,7 @@
 "use client";
 
-import SearchCard from "@/components/SearchCard";
+import CardFilterAndGrid from "@/components/set-list/CardFilterAndGrid";
 import SetCardDialog from "@/components/set-list/SetCardDialog";
-import SetGrid from "@/components/set-list/SetGrid";
 import type { CardBriefType, SetDetailType } from "@/lib/types";
 import { useState } from "react";
 
@@ -10,15 +9,10 @@ function CardGridAndModal({ setData }: { setData: SetDetailType }) {
   const [selectedCard, setSelectedCard] = useState<CardBriefType | null>(null);
   return (
     <>
-      <SetGrid>
-        {setData.cards.map((card: CardBriefType) => (
-          <SearchCard
-            key={card.id}
-            cardData={card}
-            handleClick={() => setSelectedCard(card)}
-          />
-        ))}
-      </SetGrid>
+      <CardFilterAndGrid
+        cards={setData.cards}
+        handleCardClick={setSelectedCard}
+      />
       <SetCardDialog cardData={selectedCard} />
     </>
   );
