@@ -5,6 +5,7 @@ import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { CardBriefType } from "@/lib/types";
 import { Plus } from "lucide-react";
 import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
+import { Flip, toast } from "react-toastify";
 
 function PokemonSetCard({
   cardData,
@@ -17,8 +18,23 @@ function PokemonSetCard({
   const isMobile = useIsMobile();
   console.log("cardData", cardData);
   const { addCard, binders } = useBindersStore((state) => state);
+
+  const notify = () =>
+    toast.success("Card added to binder!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Flip,
+    });
+
   function handleAddButtonClick() {
     addCard(cardData, binders[0].id);
+    notify();
   }
   return (
     <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
