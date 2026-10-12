@@ -4,51 +4,33 @@ import { useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { CardBriefType } from "@/lib/types";
 import { Plus } from "lucide-react";
-import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
-import { Flip, toast } from "react-toastify";
-
 function PokemonSetCard({
   cardData,
-  handleClick,
+  handleCardClick,
 }: {
   cardData: CardBriefType;
-  handleClick: () => void;
+  handleCardClick: (card: CardBriefType) => void;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
-  console.log("cardData", cardData);
-  const { addCard, binders } = useBindersStore((state) => state);
+  // console.log("cardData", cardData);
 
-  const notify = () =>
-    toast.success("Card added to binder!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Flip,
-    });
-
-  function handleAddButtonClick() {
-    addCard(cardData, binders[0].id);
-    notify();
-  }
   return (
     <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
-      <div className="hover-3d z-1 w-full">
+      {/* Click is handled here because the hover zones sit on top of the image */}
+      <div
+        className="hover-3d z-1 w-full"
+        onClick={() => {
+          if (!cardData.image) return;
+          const modal = document.getElementById(
+            "card-modal",
+          ) as HTMLDialogElement;
+          modal.showModal();
+          handleCardClick(cardData);
+        }}
+      >
         <figure
           className={`relative w-full cursor-pointer ${imageLoaded || (!cardData.image && !imageLoaded) ? "" : "skeleton"}`}
-          onClick={() => {
-            if (!cardData.image) return;
-            const modal = document.getElementById(
-              "card-modal",
-            ) as HTMLDialogElement;
-            modal.showModal();
-            handleClick();
-          }}
         >
           {cardData.image ? (
             <Image
@@ -82,7 +64,14 @@ function PokemonSetCard({
         </h2>
         <button
           className="btn btn-circle border-secondary hover:bg-secondary text-secondary hover:text-primary-text"
-          onClick={handleAddButtonClick}
+          onClick={() => {
+            if (!cardData) return;
+            const modal = document.getElementById(
+              "add-card-modal",
+            ) as HTMLDialogElement;
+            modal.showModal();
+            handleCardClick(cardData);
+          }}
         >
           <Plus />
         </button>

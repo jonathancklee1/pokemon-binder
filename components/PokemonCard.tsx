@@ -17,13 +17,15 @@ function PokemonCard({ cardData }: { cardData: CardBriefType | null }) {
       onClick={() => openCardModal(cardData)}
     >
       <figure className="h-full w-full">
-        <Image
-          src={`${cardData.image}/high.webp`}
-          alt="Pokemon"
-          width={200}
-          height={200}
-          className="h-full w-full rounded-lg"
-        />
+        {cardData.image && (
+          <Image
+            src={`${cardData.image}/high.webp`}
+            alt="Pokemon"
+            width={200}
+            height={200}
+            className="h-full w-full rounded-lg"
+          />
+        )}
       </figure>
       {/* <span className="badge badge-xs badge-warning absolute top-2 right-2 -translate-y-6.25 px-2 font-bold transition-transform group-hover:translate-y-0">
         {cardData.variant}

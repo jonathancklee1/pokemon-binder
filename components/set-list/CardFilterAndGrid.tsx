@@ -33,7 +33,7 @@ function CardFilterAndGrid({
           <PokemonSetCard
             key={card.id}
             cardData={card}
-            handleClick={() => handleCardClick(card)}
+            handleCardClick={handleCardClick}
           />
         ))}
       </SetGrid>
