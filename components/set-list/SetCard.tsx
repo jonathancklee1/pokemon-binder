@@ -30,9 +30,9 @@ function SetCard({ set }: { set: SetType }) {
         </figure>
       )}
       <div className="card-body justify-between px-0 pt-4 pb-0">
-        <div className="flex flex-row items-start justify-between gap-2">
-          <h2 className="card-title text-sm">{set.name}</h2>
-          <span className="badge bg-secondary text-primary-text p-2 font-bold">
+        <div className="flex flex-row items-start justify-between gap-2 font-bold">
+          <h2 className="card-title text-base font-bold">{set.name}</h2>
+          <span className="badge bg-secondary text-primary-text p-2">
             {set.cardCount.total} {set.cardCount.total === 1 ? "card" : "cards"}
           </span>
         </div>

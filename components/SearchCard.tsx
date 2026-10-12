@@ -13,6 +13,7 @@ function SearchCard({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
+  console.log("cardData", cardData);
   return (
     <div
       className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md"
@@ -26,7 +27,7 @@ function SearchCard({
     >
       <div className="hover-3d z-1 w-full">
         <figure
-          className={`relative w-full cursor-pointer ${imageLoaded ? "" : "skeleton"}`}
+          className={`relative w-full cursor-pointer ${imageLoaded || (!cardData.image && !imageLoaded) ? "" : "skeleton"}`}
         >
           {cardData.image ? (
             <Image
@@ -38,12 +39,12 @@ function SearchCard({
               className={`w-full rounded-lg transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+            <div className="inset-0 flex aspect-245/337 w-full items-center justify-center text-gray-500">
               <span className="">Image Unavailable</span>
             </div>
           )}
 
-          {!imageLoaded && (
+          {!imageLoaded && cardData.image && (
             <div className="absolute inset-0 flex items-center justify-center text-gray-500">
               <span className="loading loading-spinner loading-xs"></span>
             </div>

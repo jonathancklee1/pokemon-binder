@@ -14,3 +14,9 @@ export function chunkArray<T>(array: T[], k: number): T[][] {
 export function createNewCardList(): CardDataType[] {
   return Array.from({ length: 480 }, () => null);
 }
+
+export function getRandomHexColour() {
+  return `#${Math.floor(Math.random() * 0x1000000)
+    .toString(16)
+    .padStart(6, "0")}`;
+}

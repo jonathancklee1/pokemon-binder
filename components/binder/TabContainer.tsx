@@ -27,7 +27,7 @@ export default function TabContainer({
   }
 
   return (
-    <div>
+    <div className="relative">
       <div
         role="tablist"
         className="tabs-lift tabs flex-nowrap space-x-1.5 overflow-x-auto"
@@ -37,7 +37,7 @@ export default function TabContainer({
             key={binder?.id}
             role="tab"
             aria-selected={binder?.id === selectedTab}
-            className={`tab rounded-t-xl p-2 font-bold whitespace-nowrap ${
+            className={`tab rounded-t-xl p-2 pr-12 font-bold whitespace-nowrap ${
               binder?.id === selectedTab
                 ? "tab-active border-secondary border-2 border-b-0"
                 : ""
@@ -62,7 +62,7 @@ export default function TabContainer({
         {binders.length > 0 && (
           <button
             role="tab"
-            className="tab hover:bg-secondary/10 hover:text-secondary rounded-t-xl p-2 font-bold whitespace-nowrap"
+            className="tab bg-secondary text-primary-text hover:bg-background hover:text-secondary absolute top-0 right-0 rounded-t-xl p-2 font-bold whitespace-nowrap transition-all"
             onClick={() => handleAddCollection()}
           >
             {<Plus className="size-5" />}
