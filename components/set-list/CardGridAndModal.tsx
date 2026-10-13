@@ -8,7 +8,6 @@ import AddCardDialog from "./AddCardDialog";
 
 function CardGridAndModal({ setData }: { setData: SetDetailType }) {
   const [selectedCard, setSelectedCard] = useState<CardBriefType | null>(null);
-  console.log("selectedCard", selectedCard);
   return (
     <>
       <CardFilterAndGrid

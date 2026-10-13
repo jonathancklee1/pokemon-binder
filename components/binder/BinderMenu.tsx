@@ -23,22 +23,9 @@ function BinderMenu() {
     useBindersStore((state) => state);
   const { activeBinder, activePocketSize } = useActiveBinder();
   const { currentPage, setCurrentPage } = useContext(PageNumberContext);
-  const { activeTab, setActiveTab } = useContext(ActiveTabContext);
+  const { setActiveTab } = useContext(ActiveTabContext);
   const isMobile = useIsMobile();
-  // const maxPages =
-  //   (activePocketSize &&
-  //     activeBinder?.cardList &&
-  //     Math.ceil(activeBinder?.cardList.length / activePocketSize)) ??
-  //   1;
   const maxPages = isMobile ? 42 : 21;
-  // console.log(
-  //   "maxPages",
-  //   activeBinder,
-  //   activeTab,
-  //   activeBinder?.cardList.length,
-  //   activePocketSize,
-  //   Math.ceil((activeBinder?.cardList.length ?? 1) / (activePocketSize || 1)),
-  // );
   function handleRemoveCollection() {
     removeCollection(activeBinder?.id ?? "");
     setActiveTab(

@@ -1,4 +1,3 @@
-// src/stores/Binders-store.ts
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
 import { CardBriefType } from "../types";

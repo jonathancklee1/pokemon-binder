@@ -13,7 +13,6 @@ function PokemonSetCard({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
-  // console.log("cardData", cardData);
 
   return (
     <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
