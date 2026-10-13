@@ -59,7 +59,7 @@ function PokemonSetCard({
         ))}
       </div>
       <div className="card-body flex flex-row items-center justify-between gap-1 overflow-hidden p-2 pt-4">
-        <h2 className="card-title line-clamp-1 overflow-hidden text-sm font-bold text-ellipsis">
+        <h2 className="card-title line-clamp-1 overflow-hidden text-base font-bold text-ellipsis">
           {cardData.name}
         </h2>
         <button

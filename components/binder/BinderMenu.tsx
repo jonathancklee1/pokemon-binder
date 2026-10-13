@@ -59,7 +59,6 @@ function BinderMenu() {
     }
     return acc;
   }, 0);
-  console.log(activeBinder);
   return (
     <div className="bg-secondary-background border-border-color mb-3 flex flex-wrap items-center justify-between gap-4 rounded-xl border p-4">
       <div className="flex w-full justify-between">
