@@ -1,13 +1,13 @@
 // src/stores/Binders-store.ts
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
-import { CardDataType } from "../types";
+import { CardBriefType } from "../types";
 import { createNewCardList, getRandomHexColour } from "../utils";
 
 export type BinderType = {
   id: string;
   name: string;
-  cardList: CardDataType[];
+  cardList: (CardBriefType | null)[];
   pocketSize: 4 | 9 | 12;
   currentPage: number;
   colour?: string;
@@ -19,7 +19,7 @@ export type BindersState = {
 
 export type BindersActions = {
   changeName: (id: string, name: string) => void;
-  addCard: () => void;
+  addCard: (card: CardBriefType, binderId: string, slotIndex: number) => void;
   removeCard: () => void;
   changeCurrentPage: (number: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
@@ -50,7 +50,19 @@ export const createBindersStore = (
               return binder;
             }),
           })),
-        addCard: () => {}, //TODO
+        addCard: (card, binderId, slotIndex) =>
+          set((state) => ({
+            binders: state.binders.map((binder) =>
+              binder.id === binderId
+                ? {
+                    ...binder,
+                    cardList: binder.cardList.map((slot, index) =>
+                      index === slotIndex ? card : slot,
+                    ),
+                  }
+                : binder,
+            ),
+          })),
         removeCard: () => {}, //TODO
         changeCurrentPage: () => {}, //TODO
         setPocketSize: (id, pocketNumber) =>

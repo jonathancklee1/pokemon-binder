@@ -3,29 +3,32 @@ import Image from "next/image";
 import { useState } from "react";
 import { useIsMobile } from "@/lib/hooks/useIsMobile";
 import { CardBriefType } from "@/lib/types";
-
-function SearchCard({
+import { Plus } from "lucide-react";
+function PokemonSetCard({
   cardData,
-  handleClick,
+  handleCardClick,
 }: {
   cardData: CardBriefType;
-  handleClick: () => void;
+  handleCardClick: (card: CardBriefType) => void;
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
-  console.log("cardData", cardData);
+  // console.log("cardData", cardData);
+
   return (
-    <div
-      className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md"
-      onClick={() => {
-        const modal = document.getElementById(
-          "card-modal",
-        ) as HTMLDialogElement;
-        modal.showModal();
-        handleClick();
-      }}
-    >
-      <div className="hover-3d z-1 w-full">
+    <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
+      {/* Click is handled here because the hover zones sit on top of the image */}
+      <div
+        className="hover-3d z-1 w-full"
+        onClick={() => {
+          if (!cardData.image) return;
+          const modal = document.getElementById(
+            "card-modal",
+          ) as HTMLDialogElement;
+          modal.showModal();
+          handleCardClick(cardData);
+        }}
+      >
         <figure
           className={`relative w-full cursor-pointer ${imageLoaded || (!cardData.image && !imageLoaded) ? "" : "skeleton"}`}
         >
@@ -55,13 +58,26 @@ function SearchCard({
           <div key={i} />
         ))}
       </div>
-      <div className="card-body flex flex-col justify-between gap-1 overflow-hidden p-2 pt-4">
-        <h2 className="card-title line-clamp-1 overflow-hidden text-sm font-bold text-ellipsis">
+      <div className="card-body flex flex-row items-center justify-between gap-1 overflow-hidden p-2 pt-4">
+        <h2 className="card-title line-clamp-1 overflow-hidden text-base font-bold text-ellipsis">
           {cardData.name}
         </h2>
+        <button
+          className="btn btn-circle border-secondary hover:bg-secondary text-secondary hover:text-primary-text"
+          onClick={() => {
+            if (!cardData) return;
+            const modal = document.getElementById(
+              "add-card-modal",
+            ) as HTMLDialogElement;
+            modal.showModal();
+            handleCardClick(cardData);
+          }}
+        >
+          <Plus />
+        </button>
       </div>
     </div>
   );
 }
 
-export default SearchCard;
+export default PokemonSetCard;

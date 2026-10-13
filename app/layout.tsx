@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
+import { BindersStoreProvider } from "@/lib/stores/BinderStoreProvider";
 
 export const metadata: Metadata = {
     title: "Pokemon Binder",
@@ -15,7 +17,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <Suspense>
                     <NavBar />
                 </Suspense>
-                {children}
+                <BindersStoreProvider>{children}</BindersStoreProvider>
+                <ToastContainer />
             </body>
         </html>
     );

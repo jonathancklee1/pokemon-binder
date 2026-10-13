@@ -30,14 +30,14 @@ export default function TabContainer({
     <div className="relative">
       <div
         role="tablist"
-        className="tabs-lift tabs flex-nowrap space-x-1.5 overflow-x-auto"
+        className="tabs-lift tabs flex-nowrap space-x-1.5 overflow-x-auto pr-12"
       >
         {binderArray.map((binder) => (
           <button
             key={binder?.id}
             role="tab"
             aria-selected={binder?.id === selectedTab}
-            className={`tab rounded-t-xl p-2 pr-12 font-bold whitespace-nowrap ${
+            className={`tab rounded-t-xl p-2 font-bold whitespace-nowrap ${
               binder?.id === selectedTab
                 ? "tab-active border-secondary border-2 border-b-0"
                 : ""
