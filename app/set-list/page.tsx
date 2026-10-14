@@ -10,11 +10,13 @@ async function Sets() {
 
 export default function SetListPage() {
   return (
-    <div className="flex flex-1 flex-col bg-black font-sans">
+    <div className="flex flex-1 flex-col font-sans">
       <main>
-        <div className="my-5 flex flex-col items-center justify-center text-center md:my-8 md:items-start md:text-left">
-          <h1 className="text-3xl font-bold">Pokémon Sets</h1>
-          <p className="text-secondary-text mt-2 mb-4 text-lg">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+            Pokémon Sets
+          </h1>
+          <p className="text-muted mt-2 max-w-2xl">
             Browse all historical expansions, master sets, and track your
             personal checklist progress.
           </p>

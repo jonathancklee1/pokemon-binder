@@ -10,7 +10,7 @@ export default async function SetIdPage({
   const { id } = await params;
   const setData = await getSet(id);
   return (
-    <div className="flex flex-1 flex-col bg-black font-sans">
+    <div className="flex flex-1 flex-col font-sans">
       <main>
         <SetHeader set={setData} />
         <CardGridAndModal setData={setData} />

@@ -61,8 +61,8 @@ function AddCardDialog({
   }
   return (
     <dialog id="add-card-modal" className="modal">
-      <div className="modal-box glass flex max-w-3xl flex-col gap-6 border-4! p-8! md:flex-row">
-        <div className="mx-auto w-40 shrink-0 md:w-1/2">
+      <div className="modal-box border-line bg-surface flex max-w-3xl flex-col gap-6 rounded-2xl border p-6 shadow-[0_24px_64px_rgb(0_0_0/0.6)] md:flex-row md:p-8">
+        <div className="mx-auto w-40 shrink-0 md:w-1/2 md:self-center">
           <div className="hover-3d w-full">
             {cardData?.image && (
               <Image
@@ -84,12 +84,13 @@ function AddCardDialog({
           onSubmit={handleAddButtonClick}
         >
           <div className="flex flex-col gap-2">
-            <label htmlFor="binderName" className="text-lg font-bold">
+            <label htmlFor="binderName" className="text-sm font-semibold">
               Select a binder
             </label>
             <select
+              id="binderName"
               name="binderName"
-              className="select border-secondary bg-background/85 w-full cursor-pointer border py-5 text-lg font-bold"
+              className="select border-line bg-ground focus:border-secondary/60 h-11 w-full cursor-pointer rounded-lg border text-base font-medium focus:outline-none"
               value={binder?.id ?? ""}
               onChange={(e) => {
                 setSelectedBinder(e.target.value);
@@ -109,7 +110,7 @@ function AddCardDialog({
           </div>
           {binder && (
             <div className="flex flex-col gap-2">
-              <span className="text-lg font-bold">Choose a slot</span>
+              <span className="text-sm font-semibold">Choose a slot</span>
               <SlotPicker
                 cardList={binder.cardList}
                 pocketSize={pocketSize}
@@ -118,13 +119,13 @@ function AddCardDialog({
                 onPageChange={setSelectedPage}
                 onSelectSlot={setSelectedSlot}
               />
-              <p className="text-secondary text-sm font-semibold">
+              <p className="text-muted text-sm">
                 {binderFull ? "This binder is full" : `${slotLabel} selected`}
               </p>
             </div>
           )}
           <button
-            className="btn bg-secondary text-primary-text hover:inset-shadow-2xs, rounded-xl py-5! text-base font-bold! transition-all hover:brightness-110"
+            className="bg-secondary text-primary-text mt-auto h-11 rounded-lg text-sm font-semibold transition-colors hover:bg-yellow-300 disabled:pointer-events-none disabled:opacity-40"
             type="submit"
             disabled={!binder || binderFull}
           >

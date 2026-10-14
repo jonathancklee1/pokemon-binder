@@ -4,7 +4,7 @@ import BinderFolder from "./BinderFolder";
 import BinderMenu from "./BinderMenu";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useBindersStore } from "@/lib/stores/BinderStoreProvider";
-import { Plus } from "lucide-react";
+import { BookOpen, Plus } from "lucide-react";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
 function BinderContent() {
@@ -17,28 +17,31 @@ function BinderContent() {
   }
   if (binders.length === 0) {
     return (
-      <div className="flex h-40 w-full flex-col items-center justify-center gap-4">
-        <p className="text-center text-lg font-bold">
-          Create a binder to get started!
-        </p>
+      <div className="border-line flex flex-col items-center justify-center gap-4 rounded-3xl border border-dashed px-6 py-20 text-center">
+        <div className="bg-surface text-secondary grid size-12 place-items-center rounded-2xl">
+          <BookOpen className="size-6" />
+        </div>
+        <p className="text-lg font-semibold">Create a binder to get started!</p>
         <button
-          className="btn hover:bg-secondary/10 hover:text-secondary h-14 w-14 rounded-full p-2 font-bold whitespace-nowrap"
-          onClick={() => handleAddCollection()}
+          className="bg-secondary text-primary-text flex h-10 items-center gap-1.5 rounded-lg px-4 text-sm font-semibold transition-colors hover:bg-yellow-300"
+          onClick={handleAddCollection}
         >
-          {<Plus className="size-7" />}
+          <Plus className="size-4" />
+          New binder
         </button>
       </div>
     );
   }
   return (
-    <div>
-      <PageNumberContext.Provider
-        value={{ currentPage: currentPage, setCurrentPage: setCurrentPage }}
-      >
-        <BinderMenu />
+    <PageNumberContext.Provider
+      value={{ currentPage: currentPage, setCurrentPage: setCurrentPage }}
+    >
+      <BinderMenu />
+      {/* Stage: a soft floor light in the active binder's cover colour */}
+      <div className="border-line mt-4 rounded-3xl border bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,color-mix(in_oklab,var(--binder)_16%,transparent),transparent)] p-2 md:p-6">
         <BinderFolder />
-      </PageNumberContext.Provider>
-    </div>
+      </div>
+    </PageNumberContext.Provider>
   );
 }
 

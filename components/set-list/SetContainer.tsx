@@ -11,11 +11,14 @@ function SetContainer({ sets }: { sets: SetType[] }) {
   );
   return (
     <>
-      <div className="mb-4 flex w-full flex-col gap-4 md:flex-row">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <SetFilter searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <p className="text-muted text-sm tabular-nums">
+          {filteredSets.length} of {sets.length} sets
+        </p>
       </div>
       {filteredSets.length === 0 && (
-        <div className="flex w-full items-center justify-center rounded-lg p-4 text-center text-gray-500">
+        <div className="border-line text-muted flex w-full items-center justify-center rounded-2xl border border-dashed px-4 py-16 text-center">
           No sets found.
         </div>
       )}

@@ -10,9 +10,21 @@
   --primary-text: #171b26;
   --foreground: #ededed;
   --border: #5a5e6a;
+
+  /* App chrome: blue-black ground, two surface steps, hairlines, muted text */
+  --ground: #0b0d12;
+  --surface: #13161d;
+  --raised: #1c2029;
+  --line: rgb(255 255 255 / 0.08);
+  --muted: #9aa1b2;
 }
 
 @theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
   --color-background: var(--background);
   --color-secondary-background: var(--secondary-background);
   --color-foreground: var(--foreground);
@@ -77,8 +89,19 @@
     }
   }
 }
+html {
+  scrollbar-color: #2a2f3a var(--ground);
+}
+::selection {
+  background: rgb(250 204 21 / 0.35);
+  color: #fff;
+}
+:where(a, button, input, [role="button"]):focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
 body {
-  background: var(--background);
+  background: var(--ground);
   color: var(--foreground);
   font-family:
     Inter,
