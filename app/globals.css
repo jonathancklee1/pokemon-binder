@@ -1,12 +1,14 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: dark --default;
+}
 :root {
-  --background: #ffffff;
+  --background: #0a0a0a;
   --secondary-background: #2c303b;
   --secondary: #facc15;
   --secondary-text: #fff0ca;
   --primary-text: #171b26;
-  --foreground: #171717;
+  --foreground: #ededed;
   --border: #5a5e6a;
 }
 
@@ -23,16 +25,9 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 @layer components {
   .container {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900;
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50;
   }
 
   /* Glossy plastic binder-pocket overlay. The diagonal glare slides on hover. */
