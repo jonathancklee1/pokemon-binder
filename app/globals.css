@@ -88,6 +88,12 @@
       @apply mx-auto max-w-7xl;
     }
   }
+
+  /* Tailwind v4 preflight leaves buttons on the default cursor */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 html {
   scrollbar-color: #2a2f3a var(--ground);

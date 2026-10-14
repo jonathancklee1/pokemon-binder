@@ -19,7 +19,7 @@ import ColourPicker from "../ColourPicker";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
 const ICON_BUTTON =
-  "text-muted grid size-9 place-items-center transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-30";
+  "text-muted grid size-9 cursor-pointer place-items-center transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-30";
 
 function BinderMenu() {
   const { changeName, setPocketSize, setColour, removeCollection, binders } =

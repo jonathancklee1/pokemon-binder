@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 
 const PAGER_BUTTON =
-  "text-muted grid size-9 place-items-center transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-30";
+  "text-muted grid size-9 cursor-pointer place-items-center transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-30";
 
 /** Mini binder page for choosing the empty slot a card goes into. */
 function SlotPicker({
