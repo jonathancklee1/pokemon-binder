@@ -1,11 +1,11 @@
 /** Placeholder card shown while set data is loading. */
 function SetCardSkeleton() {
   return (
-    <div className="card bg-secondary-background p-4 shadow-sm">
-      <div className="skeleton aspect-square w-full" />
-      <div className="card-body px-0 pt-4 pb-0">
-        <div className="skeleton h-6 w-3/4" />
-        <div className="skeleton h-12 w-full" />
+    <div className="border-line bg-surface rounded-2xl border p-2.5">
+      <div className="skeleton aspect-16/10 w-full rounded-xl" />
+      <div className="px-1.5 pt-3 pb-1">
+        <div className="skeleton h-4 w-3/4" />
+        <div className="skeleton mt-2 h-3 w-1/3" />
       </div>
     </div>
   );

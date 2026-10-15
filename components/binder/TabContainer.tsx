@@ -1,6 +1,6 @@
 "use client";
 import { BinderType } from "@/lib/stores/BindersStore";
-import { useContext, useState } from "react";
+import { type CSSProperties, useContext, useState } from "react";
 import BinderContent from "./BinderContent";
 import {
   useBindersHydrated,
@@ -9,6 +9,11 @@ import {
 import { Plus } from "lucide-react";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
+
+/** Number of filled pockets in a binder. */
+function countCards(binder: BinderType) {
+  return binder.cardList.filter((card) => card !== null).length;
+}
 
 export default function TabContainer({
   binderArray,
@@ -19,6 +24,7 @@ export default function TabContainer({
   const { setCurrentPage } = useContext(PageNumberContext);
   const [activeTab, setActiveTab] = useState<string>();
   const selectedTab = activeTab ?? binders[0]?.id;
+  const selectedBinder = binders.find((binder) => binder.id === selectedTab);
   const hydrated = useBindersHydrated();
 
   function handleAddCollection() {
@@ -27,52 +33,73 @@ export default function TabContainer({
   }
 
   return (
-    <div className="relative">
-      <div
-        role="tablist"
-        className="tabs-lift tabs flex-nowrap space-x-1.5 overflow-x-auto pr-12"
-      >
-        {binderArray.map((binder) => (
-          <button
-            key={binder?.id}
-            role="tab"
-            aria-selected={binder?.id === selectedTab}
-            className={`tab rounded-t-xl p-2 font-bold whitespace-nowrap ${
-              binder?.id === selectedTab
-                ? "tab-active border-secondary border-2 border-b-0"
-                : ""
-            }`}
-            onClick={() => setActiveTab(binder?.id)}
-          >
+    <div
+      style={
+        {
+          "--binder": selectedBinder?.colour ?? "var(--secondary)",
+        } as CSSProperties
+      }
+    >
+      <div className="mb-5 flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+            Binders
+          </h1>
+          <p className="text-muted mt-1 text-sm">
             {hydrated ? (
-              <div className="flex items-center gap-2">
-                <div
-                  className="size-3 rounded-full"
-                  style={{
-                    backgroundColor: binder.colour,
-                  }}
-                ></div>
-                <span>{binder?.name}</span>
-              </div>
+              `${binders.length} ${binders.length === 1 ? "binder" : "binders"}`
             ) : (
-              <span className="skeleton h-4 w-24" />
+              <span className="skeleton inline-block h-3 w-16" />
             )}
-          </button>
-        ))}
+          </p>
+        </div>
         {binders.length > 0 && (
           <button
-            role="tab"
-            className="tab bg-secondary text-primary-text hover:bg-background hover:text-secondary absolute top-0 right-0 rounded-t-xl p-2 font-bold whitespace-nowrap transition-all"
-            onClick={() => handleAddCollection()}
+            className="bg-secondary text-primary-text flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-sm font-semibold transition-colors hover:bg-yellow-300"
+            onClick={handleAddCollection}
           >
-            {<Plus className="size-5" />}
+            <Plus className="size-4" />
+            New binder
           </button>
         )}
       </div>
-      <div
-        role="tabpanel"
-        className="border-base-300 bg-base-100 rounded-box rounded-ss-none border p-3"
-      >
+
+      {binderArray.length > 0 && (
+        <div
+          role="tablist"
+          aria-label="Binders"
+          className="border-line mb-5 flex gap-1 overflow-x-auto border-b"
+        >
+          {binderArray.map((binder) => {
+            const selected = binder.id === selectedTab;
+            return (
+              <button
+                key={binder.id}
+                role="tab"
+                aria-selected={selected}
+                className={`relative flex shrink-0 items-center gap-2 px-3 pt-2 pb-3 text-sm font-medium whitespace-nowrap transition-colors ${
+                  selected ? "text-white" : "text-muted hover:text-white"
+                }`}
+                onClick={() => setActiveTab(binder.id)}
+              >
+                <span
+                  className="size-2.5 rounded-full ring-1 ring-white/20"
+                  style={{ backgroundColor: binder.colour }}
+                />
+                {binder.name}
+                <span className="text-muted text-xs tabular-nums">
+                  {countCards(binder)}
+                </span>
+                {selected && (
+                  <span className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-[color-mix(in_oklab,var(--binder),white_25%)]" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      <div role="tabpanel">
         <ActiveTabContext.Provider
           value={{ activeTab: selectedTab ?? "", setActiveTab: setActiveTab }}
         >

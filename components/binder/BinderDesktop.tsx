@@ -19,7 +19,6 @@ function BinderDesktop({ cardList }: { cardList: CardDataType[] }) {
 
   const leftCardList = chunkedCardList[(currentPage - 1) * 2 - 1] || [];
   const rightCardList = chunkedCardList[(currentPage - 1) * 2] || [];
-  //Left page
   switch (currentPage) {
     case 0:
       leftPage = null;
@@ -36,7 +35,6 @@ function BinderDesktop({ cardList }: { cardList: CardDataType[] }) {
       );
   }
 
-  //Right page
   switch (currentPage) {
     case 0:
       rightPage = (

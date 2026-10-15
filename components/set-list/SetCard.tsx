@@ -1,45 +1,60 @@
 "use client";
 import type { SetType } from "@/lib/types";
-import { MoveRight } from "lucide-react";
+import { ArrowUpRight, ImageOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-function SetCard({ set }: { set: SetType }) {
+/** Set logo, falling back to the set symbol, then a plain placeholder. */
+function SetArtwork({ set }: { set: SetType }) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
+  const src = set.logo ?? set.symbol;
+
+  if (!src || imageFailed) {
+    return (
+      <div className="text-muted absolute inset-0 flex flex-col items-center justify-center gap-2 text-xs">
+        <ImageOff className="size-5" />
+        No Image Available
+      </div>
+    );
+  }
+  return (
+    <div className={`absolute ${set.logo ? "inset-4" : "inset-[30%]"}`}>
+      <Image
+        src={`${src}.png`}
+        alt={set.name}
+        fill
+        sizes="240px"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageFailed(true)}
+        className={`object-contain transition duration-300 group-hover:scale-105 ${
+          imageLoaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </div>
+  );
+}
+
+function SetCard({ set }: { set: SetType }) {
   return (
     <Link
-      className="card group bg-secondary-background hover:text-secondary cursor-pointer p-4 shadow-sm transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-md"
+      className="group border-line bg-surface hover:bg-raised flex flex-col rounded-2xl border p-2.5 transition-colors hover:border-white/15"
       href={`/set-list/${set.id}`}
     >
-      {!set.logo && (
-        <div className="flex aspect-square w-full items-center justify-center rounded-xl p-4">
-          <span className="text-center text-gray-500">No Image Available</span>
-        </div>
-      )}
-      {set.logo && (
-        <figure className={imageLoaded ? "" : "skeleton"}>
-          <Image
-            src={`${set.logo}.png`}
-            alt={set.name}
-            width={200}
-            height={200}
-            onLoad={() => setImageLoaded(true)}
-            className={`aspect-square w-full object-contain transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-          />
-        </figure>
-      )}
-      <div className="card-body justify-between px-0 pt-4 pb-0">
-        <div className="flex flex-row items-start justify-between gap-2 font-bold">
-          <h2 className="card-title text-base font-bold">{set.name}</h2>
-          <span className="badge bg-secondary text-primary-text p-2">
+      <div className="relative aspect-16/10 overflow-hidden rounded-xl bg-white/3">
+        <SetArtwork set={set} />
+      </div>
+      <div className="flex items-start justify-between gap-2 px-1.5 pt-3 pb-1">
+        <div className="min-w-0">
+          <h2 className="line-clamp-2 text-[15px] leading-snug font-semibold">
+            {set.name}
+          </h2>
+          <p className="text-muted mt-0.5 text-sm tabular-nums">
             {set.cardCount.total} {set.cardCount.total === 1 ? "card" : "cards"}
-          </span>
+          </p>
         </div>
-        <span className="text-primary bg-background/20 cursor-pointer rounded-xl p-3 text-base font-bold transition-colors duration-300 ease-in-out">
-          Browse Cards
-          <MoveRight className="ml-2 inline-block h-4 w-4 transition-all group-hover:translate-x-2" />
-        </span>
+        <ArrowUpRight className="text-secondary size-4 shrink-0 translate-y-0.5 opacity-0 transition-opacity group-hover:opacity-100" />
       </div>
     </Link>
   );

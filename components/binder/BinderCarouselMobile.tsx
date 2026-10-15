@@ -16,7 +16,6 @@ function BinderCarouselMobile({ cardList }: { cardList: CardDataType[] }) {
   const carouselRef = useRef<SlideHandle>(null);
 
   useEffect(() => {
-    console.log("currentPage", currentPage);
     carouselRef.current?.goToPage(currentPage);
   }, [currentPage]);
   if (!activeBinder || !activePocketSize) return null;

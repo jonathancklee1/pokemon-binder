@@ -13,10 +13,9 @@ function PokemonSetCard({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isMobile = useIsMobile();
-  // console.log("cardData", cardData);
 
   return (
-    <div className="card group relative cursor-pointer rounded-none border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
+    <div className="group border-line bg-surface hover:bg-raised relative flex cursor-pointer flex-col rounded-2xl border p-2.5 transition-colors hover:border-white/15">
       {/* Click is handled here because the hover zones sit on top of the image */}
       <div
         className="hover-3d z-1 w-full"
@@ -58,12 +57,18 @@ function PokemonSetCard({
           <div key={i} />
         ))}
       </div>
-      <div className="card-body flex flex-row items-center justify-between gap-1 overflow-hidden p-2 pt-4">
-        <h2 className="card-title line-clamp-1 overflow-hidden text-base font-bold text-ellipsis">
-          {cardData.name}
-        </h2>
+      <div className="flex items-center justify-between gap-2 px-1.5 pt-3 pb-1">
+        <div className="min-w-0">
+          <h2 className="truncate text-[15px] leading-snug font-semibold">
+            {cardData.name}
+          </h2>
+          <p className="text-muted mt-0.5 text-sm tabular-nums">
+            #{cardData.localId}
+          </p>
+        </div>
         <button
-          className="btn btn-circle border-secondary hover:bg-secondary text-secondary hover:text-primary-text"
+          aria-label={`Add ${cardData.name} to a binder`}
+          className="border-line text-secondary hover:bg-secondary hover:text-primary-text grid size-9 shrink-0 place-items-center rounded-lg border transition-colors"
           onClick={() => {
             if (!cardData) return;
             const modal = document.getElementById(
@@ -73,7 +78,7 @@ function PokemonSetCard({
             handleCardClick(cardData);
           }}
         >
-          <Plus />
+          <Plus className="size-4" />
         </button>
       </div>
     </div>

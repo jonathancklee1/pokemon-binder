@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T00:00:00Z",
+  "title": "Design System: PokéBinder",
+  "extensions": {
+    "colorMeta": {
+      "pokeball-yellow": { "role": "primary", "displayName": "Pokéball Yellow", "canonical": "#facc15", "tonalRamp": ["#422006", "#713f12", "#a16207", "#ca8a04", "#eab308", "#facc15", "#fde047", "#fef9c3"] },
+      "pokeball-yellow-bright": { "role": "primary", "displayName": "Pokéball Yellow Bright", "canonical": "#fde047", "tonalRamp": ["#422006", "#713f12", "#a16207", "#ca8a04", "#eab308", "#facc15", "#fde047", "#fef9c3"] },
+      "ink-on-yellow": { "role": "neutral", "displayName": "Ink on Yellow", "canonical": "#171b26", "tonalRamp": ["#0b0d12", "#171b26", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "night-ground": { "role": "neutral", "displayName": "Night Ground", "canonical": "#0b0d12", "tonalRamp": ["#0b0d12", "#13161d", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "slate-surface": { "role": "neutral", "displayName": "Slate Surface", "canonical": "#13161d", "tonalRamp": ["#0b0d12", "#13161d", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "slate-raised": { "role": "neutral", "displayName": "Slate Raised", "canonical": "#1c2029", "tonalRamp": ["#0b0d12", "#13161d", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "rgb(255 255 255 / 0.08)" },
+      "hairline-hover": { "role": "neutral", "displayName": "Hairline Hover", "canonical": "rgb(255 255 255 / 0.15)" },
+      "fog-muted": { "role": "neutral", "displayName": "Fog Muted", "canonical": "#9aa1b2", "tonalRamp": ["#0b0d12", "#13161d", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "paper-foreground": { "role": "neutral", "displayName": "Paper Foreground", "canonical": "#ededed", "tonalRamp": ["#0b0d12", "#13161d", "#1c2029", "#2a2f3a", "#5a5e6a", "#9aa1b2", "#c9cdd6", "#ededed"] },
+      "white": { "role": "neutral", "displayName": "White", "canonical": "#ffffff" },
+      "danger-red": { "role": "status", "displayName": "Danger Red", "canonical": "#dc2626", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fecaca"] },
+      "legal-green": { "role": "status", "displayName": "Legal Green", "canonical": "#6ee7b7", "tonalRamp": ["#022c22", "#064e3b", "#047857", "#059669", "#10b981", "#34d399", "#6ee7b7", "#d1fae5"] },
+      "legacy-background": { "role": "legacy", "displayName": "Legacy Background", "canonical": "#0a0a0a" },
+      "legacy-secondary-background": { "role": "legacy", "displayName": "Legacy Secondary Background", "canonical": "#2c303b" },
+      "legacy-secondary-text": { "role": "legacy", "displayName": "Legacy Cream Text", "canonical": "#fff0ca" },
+      "legacy-border": { "role": "legacy", "displayName": "Legacy Border", "canonical": "#5a5e6a" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page headings and the set name; 1.5rem mobile, 1.875rem from md." },
+      "headline": { "displayName": "Headline", "purpose": "Editable binder name in the toolbar; 1.125rem mobile, 1.25rem from md." },
+      "title": { "displayName": "Title", "purpose": "Set and card tile names." },
+      "body": { "displayName": "Body", "purpose": "Controls, nav, counts and metadata." },
+      "label": { "displayName": "Label", "purpose": "Chips and badges." },
+      "numeric": { "displayName": "Numeric", "purpose": "Set stats row; tabular numerals." }
+    },
+    "shadows": [
+      { "name": "popover", "value": "0 12px 32px rgb(0 0 0 / 0.5)", "purpose": "Colour picker and delete-confirm dropdowns." },
+      { "name": "dialog", "value": "0 24px 64px rgb(0 0 0 / 0.6)", "purpose": "Add-card modal." },
+      { "name": "swatch-edge", "value": "inset 0 0 0 1px rgb(255 255 255 / 0.2)", "purpose": "Keeps any binder colour swatch legible on the surface." },
+      { "name": "sleeve", "value": "inset 0 0 0 1px rgb(255 255 255 / 0.3), inset 0 2px 3px rgb(255 255 255 / 0.35), inset 0 -3px 6px rgb(0 0 0 / 0.2)", "purpose": "Preserved glossy binder-pocket overlay (.sleeve::after)." }
+    ],
+    "motion": [
+      { "name": "color-transition", "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default colour/background/border change on hover and selection." },
+      { "name": "image-fade", "value": "300ms", "purpose": "Card and logo images fade in on load; set logos scale to 1.05 on tile hover." },
+      { "name": "sleeve-glare", "value": "background-position 0.7s ease", "purpose": "Preserved sleeve glare sliding across a pocket on hover." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action per surface, e.g. New binder, Add Card.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>New binder</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border: none; border-radius: 8px; background: #facc15; color: #171b26; font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-primary:hover { background: #fde047; } .ds-btn-primary:focus-visible { outline: 2px solid #facc15; outline-offset: 2px; }"
+    },
+    {
+      "name": "Add To Binder Button",
+      "kind": "button",
+      "refersTo": "button-add",
+      "description": "Square hairline icon button on card tiles; fills yellow on hover.",
+      "html": "<button class=\"ds-btn-add\" aria-label=\"Add to a binder\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></button>",
+      "css": ".ds-btn-add { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 8px; background: transparent; color: #facc15; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-btn-add:hover { background: #facc15; color: #171b26; } .ds-btn-add:focus-visible { outline: 2px solid #facc15; outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Set and card search with leading icon; border warms to yellow on focus.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input type=\"search\" placeholder=\"Search sets\"></label>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 8px; width: 320px; height: 40px; padding: 0 12px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 8px; background: #13161d; color: #9aa1b2; transition: border-color 150ms; } .ds-search:focus-within { border-color: rgb(250 204 21 / 0.6); } .ds-search input { flex: 1; background: transparent; border: none; outline: none; color: #ededed; font-size: 14px; } .ds-search input::placeholder { color: #9aa1b2; }"
+    },
+    {
+      "name": "Nav Links",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Top bar links; active is a surface pill with a yellow icon.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-active\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 7v14\"/><path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/></svg>Binders</a><a class=\"ds-nav-link\" href=\"#\">Set List</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 4px; padding: 12px; background: #0b0d12; border-bottom: 1px solid rgb(255 255 255 / 0.08); } .ds-nav-link { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; color: #9aa1b2; font-size: 14px; font-weight: 500; text-decoration: none; transition: background-color 150ms, color 150ms; } .ds-nav-link:hover { background: rgb(255 255 255 / 0.05); color: #fff; } .ds-nav-link.ds-active { background: #13161d; color: #fff; } .ds-nav-link.ds-active svg { color: #facc15; } .ds-nav-link:focus-visible { outline: 2px solid #facc15; outline-offset: 2px; }"
+    },
+    {
+      "name": "Pocket Segmented Control",
+      "kind": "custom",
+      "refersTo": "segment-active",
+      "description": "Radio group for 4/9/12 pockets per page.",
+      "html": "<div class=\"ds-seg\" role=\"radiogroup\"><label class=\"ds-seg-opt\"><input type=\"radio\" name=\"ds-p\">4-Pocket</label><label class=\"ds-seg-opt\"><input type=\"radio\" name=\"ds-p\" checked>9-Pocket</label><label class=\"ds-seg-opt\"><input type=\"radio\" name=\"ds-p\">12-Pocket</label></div>",
+      "css": ".ds-seg { display: inline-flex; padding: 2px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 8px; background: #0b0d12; } .ds-seg-opt { padding: 6px 12px; border-radius: 6px; color: #9aa1b2; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; } .ds-seg-opt:hover { color: #fff; } .ds-seg-opt:has(input:checked) { background: #1c2029; color: #fff; } .ds-seg-opt:has(input:focus-visible) { outline: 2px solid #facc15; }"
+    },
+    {
+      "name": "Set Tile",
+      "kind": "card",
+      "refersTo": "tile",
+      "description": "Set list tile: 16:10 logo well, name, card count, arrow on hover.",
+      "html": "<a class=\"ds-tile\" href=\"#\"><div class=\"ds-tile-well\"></div><div class=\"ds-tile-strip\"><div><h3>Base Set</h3><p>102 cards</p></div><svg class=\"ds-tile-arrow\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></div></a>",
+      "css": ".ds-tile { display: flex; flex-direction: column; width: 220px; padding: 10px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 16px; background: #13161d; color: #ededed; text-decoration: none; transition: background-color 150ms, border-color 150ms; } .ds-tile:hover { background: #1c2029; border-color: rgb(255 255 255 / 0.15); } .ds-tile:focus-visible { outline: 2px solid #facc15; outline-offset: 2px; } .ds-tile-well { aspect-ratio: 16 / 10; border-radius: 12px; background: rgb(255 255 255 / 0.03); } .ds-tile-strip { display: flex; justify-content: space-between; gap: 8px; padding: 12px 6px 4px; } .ds-tile-strip h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.375; } .ds-tile-strip p { margin: 2px 0 0; font-size: 14px; color: #9aa1b2; font-variant-numeric: tabular-nums; } .ds-tile-arrow { color: #facc15; opacity: 0; transition: opacity 150ms; } .ds-tile:hover .ds-tile-arrow { opacity: 1; }"
+    },
+    {
+      "name": "Chips",
+      "kind": "chip",
+      "refersTo": "chip-abbreviation",
+      "description": "Set abbreviation and legal-format chips.",
+      "html": "<span class=\"ds-chip ds-chip-abbr\">BS</span> <span class=\"ds-chip ds-chip-legal\">Standard</span> <span class=\"ds-chip ds-chip-off\">Expanded</span>",
+      "css": ".ds-chip { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; } .ds-chip-abbr { background: #facc15; color: #171b26; font-weight: 700; } .ds-chip-legal { background: rgb(16 185 129 / 0.15); color: #6ee7b7; } .ds-chip-off { background: rgb(255 255 255 / 0.05); color: #9aa1b2; text-decoration: line-through; }"
+    },
+    {
+      "name": "Binder Stage",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Signature: hairline frame lit from above by the active binder's colour.",
+      "html": "<div class=\"ds-stage\" style=\"--binder: #2563eb\"><div class=\"ds-stage-tab\">Base Set Originals</div></div>",
+      "css": ".ds-stage { height: 200px; padding: 24px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 24px; background: radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklab, var(--binder) 16%, transparent), transparent); } .ds-stage-tab { display: inline-block; padding: 8px 12px 12px; color: #fff; font-size: 14px; font-weight: 500; border-bottom: 2px solid color-mix(in oklab, var(--binder), white 25%); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Shelf",
+    "overview": "The app is the shelf, not the binder. A blue-black working shell steps back so the preserved binder object (cover, pages, pockets, glossy sleeves) and the Pokémon card art carry all the colour. Chrome is flat, tonal and hairlined: three dark steps, one muted text grey, one yellow accent.\n\nDensity is calm and tool-like: one toolbar per surface, tiles in an even grid, counts in tabular numerals. The only atmospheric gesture is borrowed from the content itself: the active binder's cover colour (`--binder`) lights the stage floor and underlines its tab. Dark theme only.\n\nPreserved, not part of the redesign: the PokéBinder logo (Pokéball mark plus yellow wordmark), the binder object (BinderCover, BinderPage, BinderDesktop, BinderCarouselMobile), card images, and the `.sleeve` glossy pocket overlay.",
+    "keyCharacteristics": [
+      "Flat tonal layers (ground, surface, raised) separated by 1px hairlines.",
+      "One brand accent, Pokéball yellow, reserved for action, focus and selection.",
+      "The binder's own colour is the only ambient light.",
+      "Tabular numerals wherever a count appears."
+    ],
+    "rules": [
+      { "name": "The Yellow Means Act Rule", "body": "Pokéball Yellow marks something you can do, something focused, or the thing you picked. It never fills a panel or tints a background.", "section": "colors" },
+      { "name": "The Binder Lights The Room Rule", "body": "The active binder's cover colour (`--binder`) is the only ambient colour in the chrome: a 2px tab underline mixed 25% toward white, and a radial floor light at 16% on the stage. No other gradients in the shell.", "section": "colors" },
+      { "name": "The Tabular Count Rule", "body": "Every count, page number and stat uses tabular numerals so figures do not jitter as they change.", "section": "typography" },
+      { "name": "The Floating Only Rule", "body": "Panels and tiles never cast shadows at rest. A drop shadow means the element sits above the page (popover, dialog).", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** build chrome from the ground, surface, raised ladder with 1px hairline borders.",
+      "**Do** reserve Pokéball Yellow for actions, focus and selection, with Ink on Yellow text on it.",
+      "**Do** let the active binder's `--binder` colour drive its tab underline and stage light.",
+      "**Do** use tabular numerals for every count, page number and stat.",
+      "**Do** keep the logo, binder object, card images and `.sleeve` overlay as they are."
+    ],
+    "donts": [
+      "**Don't** add glass panels, blur, or gradient glows to chrome; the binder floor light and the sleeve glare are the only gradients.",
+      "**Don't** put drop shadows on panels or tiles at rest.",
+      "**Don't** bring back chunky yellow-badged card tiles; yellow stays on small controls.",
+      "**Don't** add a light theme.",
+      "**Don't** use the legacy tokens for new chrome."
+    ]
+  }
+}

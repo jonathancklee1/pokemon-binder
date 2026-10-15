@@ -6,6 +6,9 @@ import { getPageLabel, getPocketGridClass } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 
+const PAGER_BUTTON =
+  "text-muted grid size-9 cursor-pointer place-items-center transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-30";
+
 /** Mini binder page for choosing the empty slot a card goes into. */
 function SlotPicker({
   cardList,
@@ -28,20 +31,22 @@ function SlotPicker({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between">
+      <div className="bg-ground border-line flex items-center justify-between rounded-lg border">
         <button
           type="button"
-          className="btn btn-sm"
+          className={PAGER_BUTTON}
           aria-label="Previous page"
           disabled={pageIndex <= 0}
           onClick={() => onPageChange(pageIndex - 1)}
         >
           <ChevronLeft className="size-4" />
         </button>
-        <span className="font-bold">{getPageLabel(pageIndex, isMobile)}</span>
+        <span className="text-sm font-medium tabular-nums">
+          {getPageLabel(pageIndex, isMobile)}
+        </span>
         <button
           type="button"
-          className="btn btn-sm"
+          className={PAGER_BUTTON}
           aria-label="Next page"
           disabled={pageIndex >= BINDER_PAGE_COUNT - 1}
           onClick={() => onPageChange(pageIndex + 1)}
