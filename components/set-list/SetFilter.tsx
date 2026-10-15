@@ -16,7 +16,7 @@ function SetFilter({
         type="search"
         placeholder={placeholder}
         aria-label={placeholder}
-        className="placeholder:text-muted w-full bg-transparent text-sm outline-none focus-visible:outline-none"
+        className="placeholder:text-muted w-full bg-transparent text-sm outline-none focus-visible:outline-none!"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
