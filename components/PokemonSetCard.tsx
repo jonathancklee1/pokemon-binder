@@ -42,7 +42,7 @@ function PokemonSetCard({
             />
           ) : (
             <div className="inset-0 flex aspect-245/337 w-full items-center justify-center text-gray-500">
-              <span className="">Image Unavailable</span>
+              <span>Image Unavailable</span>
             </div>
           )}
 
@@ -70,7 +70,6 @@ function PokemonSetCard({
           aria-label={`Add ${cardData.name} to a binder`}
           className="border-line text-secondary hover:bg-secondary hover:text-primary-text grid size-9 shrink-0 place-items-center rounded-lg border transition-colors"
           onClick={() => {
-            if (!cardData) return;
             const modal = document.getElementById(
               "add-card-modal",
             ) as HTMLDialogElement;

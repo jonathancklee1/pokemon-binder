@@ -8,7 +8,6 @@ export type BinderType = {
   name: string;
   cardList: (CardBriefType | null)[];
   pocketSize: 4 | 9 | 12;
-  currentPage: number;
   colour?: string;
 };
 
@@ -113,7 +112,6 @@ export const createBindersStore = (
                   name: newCollectionName,
                   cardList: createNewCardList(),
                   pocketSize: 4,
-                  currentPage: 1,
                   colour: getRandomHexColour(),
                 },
               ],

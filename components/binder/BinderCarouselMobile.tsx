@@ -1,12 +1,16 @@
 import { Carousel, SlideHandle } from "nuka-carousel";
 import BinderPage from "./BinderPage";
 import BinderCover from "./BinderCover";
-import { CardDataType } from "@/lib/types";
+import { CardBriefType } from "@/lib/types";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useContext, useEffect, useRef } from "react";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
-function BinderCarouselMobile({ cardList }: { cardList: CardDataType[] }) {
+function BinderCarouselMobile({
+  cardList,
+}: {
+  cardList: (CardBriefType | null)[];
+}) {
   const { activeBinder, activePocketSize } = useActiveBinder();
   const binderPageNum = activePocketSize
     ? Math.ceil(cardList.length / activePocketSize)
@@ -32,7 +36,6 @@ function BinderCarouselMobile({ cardList }: { cardList: CardDataType[] }) {
               key="cover"
               title={activeBinder.name}
               className="w-full shrink-0"
-              layout="left"
             />
           );
         const startIndex = (pageIndex - 1) * activePocketSize;

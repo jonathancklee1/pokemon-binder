@@ -2,25 +2,19 @@ import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 import type { CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
 
-const DEFAULT_COVER_COLOuR = "var(--secondary)";
+const DEFAULT_COVER_COLOUR = "var(--secondary)";
 
 /** Shared cover surface: main colour from `--cover-colour` plus a soft sheen. */
 const COVER_SURFACE =
   "relative overflow-hidden bg-(--cover-colour) bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.25),transparent_60%)] shadow-[0_10px_30px_rgba(0,0,0,0.35)]";
 
-type CoverProps = {
-  colour?: string;
-  className?: string;
-  layout: "left" | "right";
-};
-
-const coverColourStyle = (colour: string) =>
-  ({ "--cover-colour": colour }) as CSSProperties;
+const coverColourStyle = (colour?: string) =>
+  ({ "--cover-colour": colour ?? DEFAULT_COVER_COLOUR }) as CSSProperties;
 
 /** Poke Ball emblem built from CSS shapes. */
 function PokeBallEmblem() {
   return (
-    <div className="shadow-inner- relative size-24 overflow-hidden rounded-full border-4 border-black md:size-32">
+    <div className="relative size-24 overflow-hidden rounded-full border-4 border-black md:size-32">
       <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-red-500 to-red-600" />
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-white to-slate-300" />
       <div className="absolute inset-x-0 top-1/2 h-2 -translate-y-1/2 bg-black md:h-3" />
@@ -33,9 +27,11 @@ function PokeBallEmblem() {
 
 function BinderCover({
   title,
-  colour = DEFAULT_COVER_COLOuR,
   className,
-}: CoverProps & { title?: string }) {
+}: {
+  title?: string;
+  className?: string;
+}) {
   const { activeBinder } = useActiveBinder();
   return (
     <div
@@ -44,7 +40,7 @@ function BinderCover({
         "rounded-l-lg rounded-r-4xl",
         className,
       )}
-      style={coverColourStyle(activeBinder?.colour ?? colour)}
+      style={coverColourStyle(activeBinder?.colour)}
     >
       {/* Spine */}
       <div className="absolute inset-y-0 left-0 w-6 border-r border-black/10 bg-linear-to-r from-black/40 to-black/10" />
@@ -72,10 +68,12 @@ function BinderCover({
 }
 
 export function BinderInsideCover({
-  colour = DEFAULT_COVER_COLOuR,
   className,
   layout,
-}: CoverProps) {
+}: {
+  className?: string;
+  layout: "left" | "right";
+}) {
   const { activeBinder } = useActiveBinder();
   return (
     <div
@@ -86,7 +84,7 @@ export function BinderInsideCover({
           : "rounded-l-lg rounded-r-4xl",
         className,
       )}
-      style={coverColourStyle(activeBinder?.colour ?? colour)}
+      style={coverColourStyle(activeBinder?.colour)}
     >
       <div
         className={`absolute inset-y-3 right-9 left-3 ${layout === "left" ? "rounded-l-3xl rounded-r-md" : "rounded-l-md rounded-r-3xl"} border-2 border-dashed border-black/20`}

@@ -1,22 +1,15 @@
 "use client";
-import { BinderType } from "@/lib/stores/BindersStore";
-import { type CSSProperties, useContext, useState } from "react";
+import { type CSSProperties, useState } from "react";
 import BinderContent from "./BinderContent";
 import {
   useBindersHydrated,
   useBindersStore,
 } from "@/lib/stores/BinderStoreProvider";
 import { Plus } from "lucide-react";
-import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
-export default function TabContainer({
-  binderArray,
-}: {
-  binderArray: BinderType[];
-}) {
+export default function TabContainer() {
   const { binders, addCollection } = useBindersStore((state) => state);
-  const { setCurrentPage } = useContext(PageNumberContext);
   const [activeTab, setActiveTab] = useState<string>();
   const selectedTab = activeTab ?? binders[0]?.id;
   const selectedBinder = binders.find((binder) => binder.id === selectedTab);
@@ -24,7 +17,6 @@ export default function TabContainer({
 
   function handleAddCollection() {
     setActiveTab(addCollection());
-    setCurrentPage(0);
   }
 
   return (
@@ -59,13 +51,13 @@ export default function TabContainer({
         )}
       </div>
 
-      {binderArray.length > 0 && (
+      {binders.length > 0 && (
         <div
           role="tablist"
           aria-label="Binders"
           className="border-line mb-5 flex gap-1 overflow-x-auto border-b"
         >
-          {binderArray.map((binder) => {
+          {binders.map((binder) => {
             const selected = binder.id === selectedTab;
             return (
               <button

@@ -1,10 +1,10 @@
-import BinderTabContainer from "@/components/binder/BinderTabContainer";
+import TabContainer from "@/components/binder/TabContainer";
 
 export default function Home() {
   return (
     <div>
       <main>
-        <BinderTabContainer />
+        <TabContainer />
       </main>
     </div>
   );
