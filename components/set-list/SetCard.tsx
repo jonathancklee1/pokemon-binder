@@ -47,9 +47,9 @@ function SetCard({ set }: { set: SetType }) {
       </div>
       <div className="flex items-start justify-between gap-2 px-1.5 pt-3 pb-1">
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-[15px] leading-snug font-semibold">
+          <h3 className="line-clamp-2 text-[15px] leading-snug font-semibold">
             {set.name}
-          </h2>
+          </h3>
           <p className="text-muted mt-0.5 text-sm tabular-nums">
             {set.cardCount.total} {set.cardCount.total === 1 ? "card" : "cards"}
           </p>

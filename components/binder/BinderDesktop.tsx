@@ -1,5 +1,5 @@
 "use client";
-import { CardDataType } from "@/lib/types";
+import { CardBriefType } from "@/lib/types";
 import BinderPage from "./BinderPage";
 import BinderCover, { BinderInsideCover } from "./BinderCover";
 import { useContext } from "react";
@@ -7,7 +7,11 @@ import { chunkArray } from "@/lib/utils";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 
-function BinderDesktop({ cardList }: { cardList: CardDataType[] }) {
+function BinderDesktop({
+  cardList,
+}: {
+  cardList: (CardBriefType | null)[];
+}) {
   const { currentPage } = useContext(PageNumberContext);
   const { activeBinder, activePocketSize } = useActiveBinder();
   const chunkedCardList = chunkArray(cardList, activePocketSize || 1);
@@ -48,7 +52,6 @@ function BinderDesktop({ cardList }: { cardList: CardDataType[] }) {
           <BinderCover
             title={activeBinder?.name}
             className="absolute inset-0"
-            layout="right"
           />
         </div>
       );

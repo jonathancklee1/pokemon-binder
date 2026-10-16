@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import SetContainer from "@/components/set-list/SetContainer";
 import SetGridSkeleton from "@/components/set-list/SetGridSkeleton";
-import { getSets } from "@/lib/apis/getSets";
+import { getSeries } from "@/lib/apis/getSeries";
 
 async function Sets() {
-  const sets = await getSets();
-  return <SetContainer sets={sets} />;
+  const series = await getSeries();
+  return <SetContainer series={series} />;
 }
 
 export default function SetListPage() {

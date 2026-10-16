@@ -8,7 +8,6 @@ export type BinderType = {
   name: string;
   cardList: (CardBriefType | null)[];
   pocketSize: 4 | 9 | 12;
-  currentPage: number;
   colour?: string;
 };
 
@@ -19,8 +18,7 @@ export type BindersState = {
 export type BindersActions = {
   changeName: (id: string, name: string) => void;
   addCard: (card: CardBriefType, binderId: string, slotIndex: number) => void;
-  removeCard: () => void;
-  changeCurrentPage: (number: number) => void;
+  removeCard: (binderId: string, slotIndex: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
   addCollection: () => string;
   removeCollection: (id: string) => void;
@@ -62,8 +60,19 @@ export const createBindersStore = (
                 : binder,
             ),
           })),
-        removeCard: () => {}, //TODO
-        changeCurrentPage: () => {}, //TODO
+        removeCard: (binderId, slotIndex) =>
+          set((state) => ({
+            binders: state.binders.map((binder) =>
+              binder.id === binderId
+                ? {
+                    ...binder,
+                    cardList: binder.cardList.map((slot, index) =>
+                      index === slotIndex ? null : slot,
+                    ),
+                  }
+                : binder,
+            ),
+          })),
         setPocketSize: (id, pocketNumber) =>
           set((state) => ({
             binders: state.binders.map((binder) => {
@@ -103,7 +112,6 @@ export const createBindersStore = (
                   name: newCollectionName,
                   cardList: createNewCardList(),
                   pocketSize: 4,
-                  currentPage: 1,
                   colour: getRandomHexColour(),
                 },
               ],

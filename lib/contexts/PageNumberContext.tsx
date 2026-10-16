@@ -1,8 +1,11 @@
 import { createContext } from "react";
 
-const PageNumberContext = createContext({
+const PageNumberContext = createContext<{
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+}>({
   currentPage: 0,
-  setCurrentPage: (page: number) => {},
+  setCurrentPage: () => {},
 });
 
 export default PageNumberContext;

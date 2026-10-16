@@ -1,8 +1,11 @@
 import { createContext } from "react";
 
-const ActiveTabContext = createContext({
+const ActiveTabContext = createContext<{
+  activeTab: string;
+  setActiveTab: (tab: string | undefined) => void;
+}>({
   activeTab: "",
-  setActiveTab: (tab: string | undefined) => {},
+  setActiveTab: () => {},
 });
 
 export default ActiveTabContext;

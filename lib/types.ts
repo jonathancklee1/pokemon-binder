@@ -1,12 +1,3 @@
-import type { StaticImageData } from "next/image";
-
-export type CardDataType = {
-  name: string;
-  image: StaticImageData | string;
-  setName: string;
-  variant?: string;
-} | null;
-
 export interface CardBriefType {
   id: string;
   image: string;
@@ -39,4 +30,12 @@ export interface SetType {
     total: number;
     official: number;
   };
+}
+
+export interface SerieType {
+  id: string;
+  name: string;
+  logo?: string;
+  releaseDate: string;
+  sets: SetType[];
 }

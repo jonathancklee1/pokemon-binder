@@ -16,6 +16,7 @@ import {
 } from "@/lib/stores/BinderStoreProvider";
 import { useActiveBinder } from "@/lib/hooks/useActiveBinder";
 import ColourPicker from "../ColourPicker";
+import DeleteBinderDialog from "./DeleteBinderDialog";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
 const ICON_BUTTON =
@@ -34,8 +35,12 @@ function BinderMenu() {
     setActiveTab(
       binders.length - 2 ? (binders[binders.length - 2]?.id ?? "") : undefined,
     );
-    // The daisyUI dropdown stays open while focus is inside it
-    (document.activeElement as HTMLElement | null)?.blur();
+  }
+  function openDeleteBinderModal() {
+    const modal = document.getElementById(
+      "delete-binder-modal",
+    ) as HTMLDialogElement;
+    modal.showModal();
   }
   useEffect(() => {
     setCurrentPage(0);
@@ -159,32 +164,17 @@ function BinderMenu() {
         </div>
       </div>
 
-      <div className="dropdown dropdown-bottom dropdown-end">
-        <button
-          tabIndex={0}
-          role="button"
-          className="border-line text-muted grid size-9 place-items-center rounded-lg border transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
-          aria-label="Delete binder"
-        >
-          <Trash className="size-4" />
-        </button>
-        <div
-          tabIndex={0}
-          className="dropdown-content border-line bg-raised z-10 mt-2 w-72 rounded-2xl border p-4 shadow-[0_12px_32px_rgb(0_0_0/0.5)]"
-        >
-          <p className="font-semibold">
-            Are you sure you want to delete this binder?
-          </p>
-          <p className="text-muted mt-1 text-sm">Changes cannot be reverted!</p>
-          <button
-            className="mt-4 flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-500"
-            onClick={handleRemoveCollection}
-          >
-            <Trash className="size-4" />
-            Delete Binder
-          </button>
-        </div>
-      </div>
+      <button
+        className="border-line text-muted grid size-9 cursor-pointer place-items-center rounded-lg border transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
+        aria-label="Delete binder"
+        onClick={openDeleteBinderModal}
+      >
+        <Trash className="size-4" />
+      </button>
+      <DeleteBinderDialog
+        binderName={activeBinder?.name}
+        onConfirm={handleRemoveCollection}
+      />
     </div>
   );
 }
