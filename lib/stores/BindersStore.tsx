@@ -20,7 +20,6 @@ export type BindersActions = {
   changeName: (id: string, name: string) => void;
   addCard: (card: CardBriefType, binderId: string, slotIndex: number) => void;
   removeCard: (binderId: string, slotIndex: number) => void;
-  changeCurrentPage: (number: number) => void;
   setPocketSize: (id: string, pocketNumber: 4 | 9 | 12) => void;
   addCollection: () => string;
   removeCollection: (id: string) => void;
@@ -68,14 +67,13 @@ export const createBindersStore = (
               binder.id === binderId
                 ? {
                     ...binder,
-                    cardList: binder.cardList.filter((slot, index) =>
+                    cardList: binder.cardList.map((slot, index) =>
                       index === slotIndex ? null : slot,
                     ),
                   }
                 : binder,
             ),
-          })), //TODO
-        changeCurrentPage: () => {}, //TODO
+          })),
         setPocketSize: (id, pocketNumber) =>
           set((state) => ({
             binders: state.binders.map((binder) => {
