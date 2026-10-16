@@ -40,3 +40,11 @@ export interface SetType {
     official: number;
   };
 }
+
+export interface SerieType {
+  id: string;
+  name: string;
+  logo?: string;
+  releaseDate: string;
+  sets: SetType[];
+}
