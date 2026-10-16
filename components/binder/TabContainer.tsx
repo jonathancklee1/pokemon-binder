@@ -10,11 +10,6 @@ import { Plus } from "lucide-react";
 import PageNumberContext from "@/lib/contexts/PageNumberContext";
 import ActiveTabContext from "@/lib/contexts/ActiveTabContext";
 
-/** Number of filled pockets in a binder. */
-function countCards(binder: BinderType) {
-  return binder.cardList.filter((card) => card !== null).length;
-}
-
 export default function TabContainer({
   binderArray,
 }: {
@@ -87,9 +82,7 @@ export default function TabContainer({
                   style={{ backgroundColor: binder.colour }}
                 />
                 {binder.name}
-                <span className="text-muted text-xs tabular-nums">
-                  {countCards(binder)}
-                </span>
+
                 {selected && (
                   <span className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-[color-mix(in_oklab,var(--binder),white_25%)]" />
                 )}

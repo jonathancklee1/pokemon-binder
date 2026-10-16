@@ -16,7 +16,7 @@ function BinderPage(
     <div className="bg-background rounded-md p-2 shadow-sm md:h-full md:p-4">
       <div className={`grid ${gridColsClass} gap-2`}>
         {cardList?.map((card, index) => (
-          <PokemonCard key={index} cardData={card} />
+          <PokemonCard key={index} cardData={card} slot={index} />
         ))}
       </div>
     </div>
