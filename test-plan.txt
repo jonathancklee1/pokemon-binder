@@ -1,0 +1,175 @@
+TEST PLAN - pokemon-binder
+==========================
+
+Work through this top to bottom. It goes from the easiest kind of test
+(plain functions) to the hardest (components that need mocks and context).
+
+Setup: see node_modules/next/dist/docs/01-app/02-guides/testing/vitest.md
+(vitest, jsdom, @testing-library/react, @vitejs/plugin-react, vite-tsconfig-paths
+so the "@/..." imports resolve). Async Server Components (app/**/page.tsx)
+cannot be unit tested with Vitest, so skip them.
+
+
+FILES TO CREATE
+---------------
+1. Install the dev dependencies (run in the project root):
+     pnpm add -D vitest @vitejs/plugin-react jsdom @testing-library/react
+       @testing-library/dom @testing-library/user-event
+       @testing-library/jest-dom vite-tsconfig-paths
+
+2. vitest.config.mts            (project root, next to package.json)
+     - plugins: tsconfigPaths() and react()
+     - test.environment: "jsdom"
+     - test.setupFiles: ["./vitest.setup.ts"]
+     - copy the example from the Next.js guide above, then add setupFiles
+
+3. vitest.setup.ts              (project root)
+     Runs before every test file. Put shared setup here:
+     - import "@testing-library/jest-dom/vitest"  (adds toBeInTheDocument etc.)
+     - afterEach(cleanup) from @testing-library/react, so each test starts
+       with an empty page
+     - later: a window.matchMedia mock, because many components use useIsMobile
+
+4. package.json -> "scripts"
+     - add  "test": "vitest"
+     - run with  pnpm test  (watches files and re-runs on save)
+
+5. Test files - put each one NEXT TO the file it tests, same name + ".test".
+   Use .test.ts for plain TypeScript and .test.tsx when the test has JSX.
+   Vitest finds any file ending in .test.ts / .test.tsx automatically.
+
+     lib/utils.test.ts                          tests lib/utils.ts
+     lib/stores/BindersStore.test.ts            tests lib/stores/BindersStore.tsx
+     lib/stores/BinderStoreProvider.test.tsx    tests lib/stores/BinderStoreProvider.tsx
+     lib/hooks/useIsMobile.test.ts              tests lib/hooks/useIsMobile.ts
+     lib/hooks/useActiveBinder.test.tsx         tests lib/hooks/useActiveBinder.ts
+     components/FetchError.test.tsx             tests components/FetchError.tsx
+     components/set-list/SetContainer.test.tsx
+     components/set-list/CardFilterAndGrid.test.tsx
+     components/set-list/SlotPicker.test.tsx
+     components/set-list/AddCardDialog.test.tsx
+     components/binder/TabContainer.test.tsx
+     components/binder/BinderMenu.test.tsx
+
+   (Alternative: a single __tests__/ folder in the root, like the Next.js
+   guide. Either works - colocating just makes the imports shorter.)
+
+   Start with ONE file (lib/utils.test.ts), get it passing, then add the next.
+
+6. Shared test helpers (only once you need them, around Level 3)
+     test-utils/renderWithStore.tsx
+       - a small function that wraps a component in BindersStoreProvider
+         (and ActiveTabContext.Provider), so you don't repeat it in every test
+
+
+LEVEL 1 - Pure functions (no React, no mocks)
+---------------------------------------------
+lib/utils.ts
+  - chunkArray
+      * splits an array into groups of k
+      * last group is shorter when the length is not divisible by k
+      * empty array returns []
+  - createNewCardList
+      * returns 480 items, all null (480 = 40 pages x 12 pockets)
+  - getPocketGridClass
+      * correct class string for 4, 9 and 12
+  - getPageLabel
+      * mobile: index 0 -> "Page 1"
+      * desktop: index 0 -> "Page 1 - Right", 1 -> "Page 2 - Left", 2 -> "Page 2 - Right"
+      * good one for test.each (a table of inputs and expected outputs)
+  - getRandomHexColour
+      * matches /^#[0-9a-f]{6}$/
+      * practise vi.spyOn(Math, "random") to force 0 -> "#000000"
+
+
+LEVEL 2 - Zustand store (still no rendering) - MOST IMPORTANT
+-------------------------------------------------------------
+lib/stores/BindersStore.tsx -> createBindersStore()
+  Create a fresh store in each test, call actions with store.getState(),
+  and assert on store.getState().binders.
+
+  - addCollection
+      * adds a binder with 480 empty slots, pocketSize 4 and a colour
+      * returns the new binder's id
+      * names are "New Collection 1", "New Collection 2", ...
+  - removeCollection
+      * removes only the binder with the matching id
+  - addCard / removeCard
+      * puts a card in the given slot, leaves other slots untouched
+      * removeCard sets that slot back to null
+      * only changes the targeted binder
+  - changeName, setPocketSize, setColour
+      * update the targeted binder only
+  - Edge case to think about: what does addCollection name the next binder
+    after you delete "New Collection 1" out of 1, 2? Write the test first
+    and see if you agree with the result.
+
+
+LEVEL 3 - Hooks (renderHook from @testing-library/react)
+--------------------------------------------------------
+lib/hooks/useIsMobile.ts
+  - jsdom has no window.matchMedia, so you must mock it (vi.fn / vi.stubGlobal)
+  - returns true/false based on the mocked matches value
+
+lib/hooks/useActiveBinder.ts
+  - needs a wrapper with BindersStoreProvider + ActiveTabContext.Provider
+  - returns the binder whose id matches activeTab, and its pocketSize
+
+lib/stores/BinderStoreProvider.tsx
+  - useBindersStore throws when used outside BindersStoreProvider
+
+
+LEVEL 4 - Components (render + screen + userEvent)
+--------------------------------------------------
+Install @testing-library/user-event for clicks and typing.
+You will probably need to mock next/image and window.matchMedia.
+
+components/set-list/SetContainer.tsx   (good first component)
+  - shows "X of Y sets" count
+  - typing in search filters sets (case-insensitive)
+  - series with no matching sets are hidden
+  - "No sets found." when nothing matches
+
+components/set-list/CardFilterAndGrid.tsx
+  - same idea as SetContainer but for cards: count, filter, empty state
+
+components/set-list/SlotPicker.tsx
+  - "Previous page" disabled on page 0, "Next page" disabled on the last page
+  - clicking a pager button calls onPageChange with the right index
+  - filled slots are disabled; clicking an empty slot calls onSelectSlot
+    with the absolute slot index (pageIndex * pocketSize + position)
+  - selected slot has aria-pressed="true"
+  - tip: these props are plain functions, so pass vi.fn() and assert calls
+
+components/FetchError.tsx
+  - shows title and description
+  - "Try again" calls retry
+
+components/binder/TabContainer.tsx   (harder - wrap in BindersStoreProvider)
+  - "New binder" creates a tab and selects it
+  - clicking a tab sets aria-selected on it
+  - shows "1 binder" vs "2 binders"
+
+components/binder/BinderMenu.tsx   (harder)
+  - total card count text
+  - changing the pocket size radio updates the binder
+  - Look closely at handleRemoveCollection: write a test that deletes the
+    MIDDLE binder of three and check which tab becomes active. Also try
+    deleting when there are exactly 2 binders. Your tests may find a bug.
+
+components/set-list/AddCardDialog.tsx   (hardest - optional)
+  - defaults to the first empty slot of the first binder
+  - "Add Card" is disabled when the binder is full
+  - submitting adds the card to the store (mock react-toastify)
+  - note: jsdom has limited <dialog> support (showModal/close may need stubbing)
+
+
+SKIP FOR NOW
+------------
+- Skeleton/loading components, NavBar, BinderCover, SetGrid: mostly markup.
+- lib/apis/getSeries.ts, getSet.ts: use "use cache" and next/cache. You can
+  come back later and test them by mocking fetch (vi.stubGlobal("fetch", ...))
+  and vi.mock("next/cache"), e.g. "throws when res.ok is false" and
+  "getSeries returns series and sets newest first".
+- BinderDesktop / BinderCarouselMobile page maths: worth testing later, ideally
+  by first moving the page-index maths into a small pure function in lib/utils.ts.
