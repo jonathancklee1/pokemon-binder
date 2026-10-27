@@ -6,6 +6,7 @@ import {
   getPocketGridClass,
   getRandomHexColour,
 } from "./utils";
+import { hexRegex } from "./constants";
 
 describe("chunkArray", () => {
   it("chunks the array correctly", () => {
@@ -64,7 +65,6 @@ describe("getRandomHexColour", () => {
     vi.restoreAllMocks();
   });
   it("gets a valid hex colour", () => {
-    const hexRegex = /^#[0-9a-f]{6}$/;
     expect(getRandomHexColour()).match(hexRegex);
   });
   it("returns black hex for 0", () => {
