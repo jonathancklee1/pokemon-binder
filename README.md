@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PokéBinder
+
+A virtual Pokémon TCG card binder. Create binders, browse every English set, and place cards into exact binder pockets, then flip through them page by page like a real binder.
+
+## Features
+
+- **Binders**: name, colour, pocket size (4, 9 or 12 per page) and 40 pages each.
+- **Set List**: browse all series and sets, filter and search cards, and add a card to a chosen page and pocket.
+- **Mobile and desktop**: phones get a dedicated binder carousel.
+- **Local storage**: binders are saved in the browser. No account or backend.
+
+Card and set data come from the [TCGdex API](https://tcgdex.dev).
+
+## Tech Stack
+
+Next.js 16 (App Router, Cache Components, React Compiler), React 19, TypeScript, Tailwind CSS 4 with daisyUI, Zustand, and Vitest with Testing Library.
 
 ## Getting Started
 
-First, run the development server:
+Requires Node 24 and pnpm.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command      | Description                |
+| ------------ | -------------------------- |
+| `pnpm dev`   | Start the dev server       |
+| `pnpm build` | Build for production       |
+| `pnpm start` | Serve the production build |
+| `pnpm lint`  | Run ESLint                 |
+| `pnpm test`  | Run the Vitest suite       |
 
-## Learn More
+CI runs lint, tests and build on every pull request and push to `master`.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/          Routes: binders (/) and set list (/set-list, /set-list/[id])
+components/   UI components, grouped by binder and set-list
+lib/          API calls, Zustand store, contexts, hooks, types and utils
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Disclaimer
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Not affiliated with Nintendo, The Pokémon Company or Game Freak. Pokémon names, card images and set logos belong to their rights holders.
